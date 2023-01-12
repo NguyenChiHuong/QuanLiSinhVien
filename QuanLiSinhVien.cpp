@@ -197,7 +197,7 @@ void ThemThongTin(QuanLiDiem ql[],int n){
 	do{ 
 		cin>>ql[n].ns.Ngay;
 		if(ql[n].ns.Ngay <=0 || ql[n].ns.Ngay >31)
-			cout<<"Khong co ngay nay!";
+			cout<<"->Khong co ngay nay!";
 	}while(ql[n].ns.Ngay <=0 || ql[n].ns.Ngay >31);
 	cout<<"Nhap thang: ";
 	do{
@@ -224,10 +224,54 @@ void ThemThongTin(QuanLiDiem ql[],int n){
 	}while(ql[n].DiemToan <0 || ql[n].DiemVan <0||ql[n].DiemAnh <0 || ql[n].DiemToan >10||ql[n].DiemVan >10 || ql[n].DiemAnh >10); 
 	n++;
 	cout<<"\t\t\tDANH SACH SINH VIEN SAU KHI THEM\n";
-	Bang(); tieude(); Bang();
 	XuatThongTin(ql,a);
 }
 
+void SuaThongTin(QuanLiDiem ql[],int n){
+	char Sua[10];
+	cout<<"-Nhap ma so sinh vien can sua: ";fflush(stdin); cin.getline(Sua,10);
+	for(int i=0;i<n;i++){
+		if(strcmp(Sua,ql[i].MaSo)==0){
+				cout<<"\t-Nhap sinh vien sua-\n";
+				cout<<"\nNhap ma so: "; fflush(stdin); cin.getline(ql[i].MaSo,10);
+				cout<<"Nhap ho ten: "; cin.getline(ql[i].HoTen,10);
+				cout<<"Nhap lop: "; cin.getline(ql[i].Lop,10);
+				cout<<"Nhap que quan: "; cin.getline(ql[i].QueQuan,10);
+				cout<<"\n\t-Nhap ngay sinh-\n";
+				cout<<"\nNhap ngay: "; 
+				do{ 
+					cin>>ql[i].ns.Ngay;
+					if(ql[i].ns.Ngay <=0 || ql[i].ns.Ngay >31)
+						cout<<"->Khong co ngay nay!";
+				}while(ql[i].ns.Ngay <=0 || ql[i].ns.Ngay >31);
+				cout<<"Nhap thang: ";
+				do{
+					cin>>ql[i].ns.Thang;
+					if(ql[i].ns.Thang <=0 || ql[i].ns.Thang >12)
+						cout<<"->Khong co thang nay!";
+				}while(ql[i].ns.Thang <=0 || ql[i].ns.Thang >12 );
+				cout<<"Nhap nam: "; 
+				do{
+					cin>>ql[i].ns.Nam;
+					if(ql[i].ns.Nam <=0 || ql[i].ns.Nam >2023)
+						cout<<"->Khong co nam nay!";
+				}while(ql[i].ns.Nam <=0 || ql[i].ns.Nam >2023);
+				 cout<<"\n\t-Nhap diem-\n";
+				do{
+					cout<<"\nNhap diem toan: "; 
+					cin>>ql[i].DiemToan;
+					cout<<"Nhap diem van: ";
+					cin>>ql[i].DiemVan;
+					cout<<"Nhap diem anh: ";
+					cin>>ql[i].DiemAnh;
+					if(ql[i].DiemToan <0 || ql[i].DiemVan <0||ql[i].DiemAnh <0 || ql[i].DiemToan >10||ql[i].DiemVan >10 || ql[i].DiemAnh >10)
+						cout<<"->Ban nhap sai!";
+				}while(ql[i].DiemToan <0 || ql[i].DiemVan <0||ql[i].DiemAnh <0 || ql[i].DiemToan >10||ql[i].DiemVan >10 || ql[i].DiemAnh >10); 
+		cout<<"\t\t\t---DANH SACH SINH VIEN SAU KHI SUA---\n\n";
+		XuatThongTin(ql,n);
+		}
+	}
+}
 void XoaThongTin(QuanLiDiem ql[],int n){
 	char Xoa[10];
 	cout<<"-Nhap ma so sinh vien can xoa: ";fflush(stdin); cin.getline(Xoa,10);
@@ -379,11 +423,12 @@ int main(){
 	cout<<"*\t\t\t\t\t\t   *\n*\t Nhap 1.NHAP DANH SACH SINH VIEN           *"<<endl;      
 	cout<<"*\t\t\t\t\t\t   *\n*\t Nhap 2.DANH SACH THONG TIN SINH VIEN      *"<<endl;
     cout<<"*\t\t\t\t\t\t   *\n*\t Nhap 3.THEM SINH VIEN LEN DANH SACH       *"<<endl;
-	cout<<"*\t\t\t\t\t\t   *\n*\t Nhap 4.XOA SINH VIEN TRONG DANH SACH      *"<<endl;  
-    cout<<"*\t\t\t\t\t\t   *\n*\t Nhap 5.XAP XEP DANH SACH SINH VIEN        *"<<endl;  
-    cout<<"*\t\t\t\t\t\t   *\n*\t Nhap 6.TIM KIEM THONG TIN SINH VIEN       *"<<endl;
-	cout<<"*\t\t\t\t\t\t   *\n*\t Nhap 7.GHI DU LIEU VAO FILE               *"<<endl; 
-	cout<<"*\t\t\t\t\t\t   *\n*\t Nhap 8.DOC DU LIEU TU FILE                *"<<endl; 
+    cout<<"*\t\t\t\t\t\t   *\n*\t Nhap 4.SUA SINH VIEN TRONG DANH SACH      *"<<endl; 
+	cout<<"*\t\t\t\t\t\t   *\n*\t Nhap 5.XOA SINH VIEN TRONG DANH SACH      *"<<endl;  
+    cout<<"*\t\t\t\t\t\t   *\n*\t Nhap 6.XAP XEP DANH SACH SINH VIEN        *"<<endl;  
+    cout<<"*\t\t\t\t\t\t   *\n*\t Nhap 7.TIM KIEM THONG TIN SINH VIEN       *"<<endl;
+	cout<<"*\t\t\t\t\t\t   *\n*\t Nhap 8.GHI DU LIEU VAO FILE               *"<<endl; 
+	cout<<"*\t\t\t\t\t\t   *\n*\t Nhap 9.DOC DU LIEU TU FILE                *"<<endl; 
 	cout<<"*\t\t\t\t\t\t   *\n*\t Nhap 0.THOAT                              *"<<endl;
 	cout<<"*\t\t\t\t\t\t   *"<<endl; 						  
 	dongnhande();
@@ -407,16 +452,21 @@ int main(){
 			break;
 		}
 		case 3:{
-			cout<<"\t\t\t---THEM SINH VIEN LEN DANH SACH---"<<endl;
+			cout<<"\t\t\t---THEM THONG TIN SINH VIEN LEN DANH SACH---"<<endl;
 			ThemThongTin(ql,n);
 			break;
 		}
 		case 4:{
-			cout<<"\t\t\t---XOA SINH VIEN TRONG DANH SACH---"<<endl;
-			XoaThongTin(ql,n);
+			cout<<"\t\t\t---SUA THONG TIN SINH VIEN TRONG DANH SACH---"<<endl;
+			SuaThongTin(ql,n);
 			break;
 		}
 		case 5:{
+			cout<<"\t\t\t---XOA THONG TIN SINH VIEN TRONG DANH SACH---"<<endl;
+			XoaThongTin(ql,n);
+			break;
+		}
+		case 6:{
 			int b; cout<<"\n";
 			cout<<"===============XAP XEP DANH SACH SINH VIEN================="<<endl;  
 			cout<<"\n Nhap 1.DANH SACH SINH VIEN GIAM DAN THEO DIEM TRUNG BINH"<<endl;
@@ -452,7 +502,7 @@ int main(){
 			if(traloi1=='y' || traloi1=='Y') goto tieptuc;
 			if(traloi1=='n' || traloi1=='N') goto dung1;
 		}
-		case 6: int c; cout<<"\n";
+		case 7: int c; cout<<"\n";
 			cout<<"=================XAP XEP SINH VIEN=================="<<endl; 
 			cout<<"\n Nhap 1.DANH SACH SINH VIEN TIM KIEM THEO MA SO"<<endl;
 			cout<<"\n Nhap 2.DANH SACH SINH VIEN TIM KIEM THEO TEN"<<endl;
@@ -490,14 +540,14 @@ int main(){
 			if(traloi2=='y' || traloi2=='Y') goto tieptuc;
 			if(traloi2=='n' || traloi2=='N') goto dung2;
 			
-		case 7:{
+		case 8:{
 			cout<<"\n\t\t---GHI DU LIEU VAO FILE---"<<endl;
 			XuatThongTin(ql,n);
 			GhiFile(ql,n);
 			cout<<"\n->Ghi file thanh cong.";
 			break;
 		}	
-		case 8:{
+		case 9:{
 			cout<<"\n\t\t---DOC DU LIEU TU FILE---"<<endl;
 			GhiFile(ql,n);
 			DocFile(ql,n);
