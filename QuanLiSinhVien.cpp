@@ -64,21 +64,25 @@ void QuanLiSinhVien::ThongTin(){
 class QuanLiDiem:public QuanLiSinhVien{
     public:
         float DiemToan,DiemVan,DiemAnh;
+		int DiemRenLuyen;
     public:
         QuanLiDiem(){}
-        QuanLiDiem(char*ms,char*ht,char*lop,char*qq,float dt,float dv,float da):QuanLiSinhVien(ms,ht,lop,qq){
+        QuanLiDiem(char*ms,char*ht,char*lop,char*qq,float dt,float dv,float da,int drl):QuanLiSinhVien(ms,ht,lop,qq){
             this->DiemToan = dt;
             this->DiemVan = dv;
             this->DiemAnh = da;
+			this->DiemRenLuyen =drl;
         }
         ~QuanLiDiem(){}
         
         float DiemTrungBinh(){
-            return (this->DiemToan + this->DiemVan + this->DiemAnh) / 3;
+            return (this->DiemToan + this->DiemVan +this->DiemAnh) / 3;
         }
         
         string HocLuc(){
-            if(DiemTrungBinh() >= 8 && DiemTrungBinh() <=10)
+			if(DiemTrungBinh() >=9 && DiemTrungBinh() <=10)
+				return "Xuat sac";
+            else if(DiemTrungBinh() >= 8 && DiemTrungBinh() <9)
                 return "Gioi";
             else if(DiemTrungBinh() >=6.5 && DiemTrungBinh() <8)
                 return "Kha";
@@ -87,7 +91,17 @@ class QuanLiDiem:public QuanLiSinhVien{
             else    
 				return "Yeu";
         }
-        
+    
+		int HocBong(){
+			if((HocLuc()=="Xuat sac") &&(DiemRenLuyen >=90))
+				return 10000000;
+			else if((HocLuc()=="Gioi") && (DiemRenLuyen >=80 && DiemRenLuyen < 90))
+				return 8000000;
+			else if((HocLuc()=="Kha") && (DiemRenLuyen >=70 && DiemRenLuyen < 80))
+				return 6000000;
+			else return 0;
+		}
+
         friend bool operator < (QuanLiDiem a,float b){
         	if(a.DiemTrungBinh() < b)
         		return true;
@@ -119,45 +133,43 @@ void dongnhande(){
 }
 
 void dongketieude(){
-    for(int i=0;i<111;i++){cout<<"=";}
+    for(int i=0;i<121;i++){cout<<"=";}
     cout<<"\n";
 }
 
 void dongkengang(){
-	for(int i=0;i<111;i++){cout<<"-";}
+	for(int i=0;i<122;i++){cout<<"-";}
 	cout<<"\n";
 }
 
 void tieude(){
     cout<<"|"<<setw(5)<<left<<"Ma so"<<"|"<<setw(15)<<left<<"Ho ten"<<"|"<<setw(10)<<left<<"Lop"<<"|"<<setw(12)<<left<<"Que quan"
         <<"|"<<setw(10)<<"Ngay sinh"<<"|"<<setw(5)<<"Diem toan"<<"|"<<setw(8)<<"Diem van"<<"|"<<setw(8)<<"Diem anh"<<"|";
-    cout<<setw(13)<<"DiemTrungBinh"<<"|"<<setw(10)<<"Hoc luc"<<setw(2)<<"|"<<endl;
+    cout<<setw(13)<<"DiemTrungBinh"<<"|"<<setw(10)<<"Hoc luc"<<"|"<<setw(10)<<"Hoc bong"<<setw(2)<<"|"<<endl;
 }
 
 void Bang(){
 	cout<<"+"<<"-----"<<"+"<<"---------------"<<"+"<<"----------"<<"+"<<"------------"<<"+"
         <<"----------"<<"+"<<"---------"<<"+"<<"--------"<<"+"<<"--------"<<"+";
-    cout<<"-------------"<<"+"<<"----------"<<"+"<<endl;
+    cout<<"-------------"<<"+"<<"----------"<<"+"<<"----------"<<"+"<<endl;
 }
 istream&operator>>(istream&is,QuanLiDiem & ql){
     ql.QuanLiSinhVien::NhapDanhSach();
     cout<<"\n\t-Nhap diem-\n";
     do{
-		cout<<"\nNhap diem toan: "; 
-        is>>ql.DiemToan;
-    	cout<<"Nhap diem van: ";
-    	is>>ql.DiemVan;
-		cout<<"Nhap diem anh: ";
-    	is>>ql.DiemAnh;
-        if(ql.DiemToan <0 || ql.DiemVan <0||ql.DiemAnh <0 || ql.DiemToan >10||ql.DiemVan >10 || ql.DiemAnh >10)
+		cout<<"\nNhap diem toan: "; is>>ql.DiemToan;
+    	cout<<"Nhap diem van: "; is>>ql.DiemVan;
+		cout<<"Nhap diem anh: "; is>>ql.DiemAnh;
+		cout<<"Nhap diem ren luyen: "; is>>ql.DiemRenLuyen;
+        if(ql.DiemToan <0 || ql.DiemVan <0||ql.DiemAnh <0 || ql.DiemRenLuyen<0|| ql.DiemToan >10||ql.DiemVan >10 || ql.DiemAnh >10||ql.DiemRenLuyen>100)
             cout<<"->Ban nhap sai!";
-    }while(ql.DiemToan <0 || ql.DiemVan <0||ql.DiemAnh <0 || ql.DiemToan >10||ql.DiemVan >10 || ql.DiemAnh >10); 
+    }while(ql.DiemToan <0 || ql.DiemVan <0||ql.DiemAnh <0 ||ql.DiemRenLuyen<0 || ql.DiemToan >10||ql.DiemVan >10 || ql.DiemAnh >10||ql.DiemRenLuyen>100); 
     return is;
 }
 ostream&operator<<(ostream&os,QuanLiDiem ql){
     ql.QuanLiSinhVien::ThongTin();
     os<<setw(9)<<ql.DiemToan<<"|"<<setw(8)<<ql.DiemVan<<"|"<<setw(8)<<ql.DiemAnh<<"|"<<setw(13)<<ql.DiemTrungBinh()<<"|"
-        <<setw(10)<<ql.HocLuc()<<"|"<<endl; 
+        <<setw(10)<<ql.HocLuc()<<"|"<<setw(10)<<ql.HocBong()<<setw(2)<<"|"<<endl; 
     return os;
 }
 void NhapThongTin(QuanLiDiem ql[],int n){
@@ -389,12 +401,12 @@ void GhiFile(QuanLiDiem ql[],int n){
 		cerr<<"-Khong the ghi file."<<endl;
 	}
 	file<<"Ma so"<<","<<"Ho ten"<<","<<"Lop"<<","<<"Que quan"<<","<<"Ngay sinh"<<","<<"Diem toan"<<","
-		<<"Diem van"<<","<<"Diem anh"<<","<<"DiemTrungBinh"<<","<<"Hoc luc"<<","<<endl;
+		<<"Diem van"<<","<<"Diem anh"<<","<<"DiemTrungBinh"<<","<<"Hoc luc"<<","<<"Hoc bong"<<endl;
 	for(short int i=0;i<n;i++){
 		file<<left<<ql[i].MaSo<<","<<left<<ql[i].HoTen<<","<<left<<ql[i].Lop<<","<<left<<ql[i].QueQuan<<","
 			<<left<<ql[i].ns.Ngay<<"/"<<left<<ql[i].ns.Thang<<"/"<<left<<ql[i].ns.Nam<<","
 			<<left<<ql[i].DiemToan<<","<<left<<ql[i].DiemVan<<","<<left<<ql[i].DiemAnh<<","
-			<<left<<ql[i].DiemTrungBinh()<<","<<left<<ql[i].HocLuc()<<endl;
+			<<left<<ql[i].DiemTrungBinh()<<","<<left<<ql[i].HocLuc()<<","<<left<<ql[i].HocBong()<<endl;
 	}
 	file.close();
 }
@@ -409,10 +421,11 @@ void DocFile(QuanLiDiem ql[],int n){
 		cout<<"|"<<setw(5)<<ql[i].MaSo<<"|"<<setw(15)<<ql[i].HoTen<<"|"<<setw(10)<<ql[i].Lop<<"|"<<setw(12)<<ql[i].QueQuan
         	<<"|"<<setw(2)<<ql[i].ns.Ngay<<"/"<<setw(2)<<ql[i].ns.Thang<<"/"<<setw(4)<<ql[i].ns.Nam<<"|";
         cout<<setw(9)<<ql[i].DiemToan<<"|"<<setw(8)<<ql[i].DiemVan<<"|"<<setw(8)<<ql[i].DiemAnh<<"|"<<setw(13)<<ql[i].DiemTrungBinh()<<"|"
-        	<<setw(10)<<ql[i].HocLuc()<<"|"<<endl; dongkengang();
+        	<<setw(10)<<ql[i].HocLuc()<<"|"<<setw(10)<<ql[i].HocBong()<<"|"<<endl; Bang();
 	}
 	file.close();
 } 
+
 int main(){
     int n;
 	QuanLiDiem ql[100];
