@@ -133,7 +133,7 @@ void dongnhande(){
 }
 
 void dongketieude(){
-    for(int i=0;i<121;i++){cout<<"=";}
+    for(int i=0;i<122;i++){cout<<"=";}
     cout<<"\n";
 }
 
