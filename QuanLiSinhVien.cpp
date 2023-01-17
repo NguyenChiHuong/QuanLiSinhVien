@@ -196,47 +196,21 @@ void XuatThongTin(QuanLiDiem ql[],int n){
         Bang();
     } cout<<"\n\n";
 } 
-
 void ThemThongTin(QuanLiDiem ql[],int n){
-	int a = n+1;
-	cout<<"\t-Nhap sinh vien them-\n";
-	cout<<"\nNhap ma so: "; fflush(stdin); cin.getline(ql[n].MaSo,10);
-	cout<<"Nhap ho ten: "; cin.getline(ql[n].HoTen,10);
-	cout<<"Nhap lop: "; cin.getline(ql[n].Lop,10);
-	cout<<"Nhap que quan: "; cin.getline(ql[n].QueQuan,10);
-	cout<<"\n\t-Nhap ngay sinh-\n";
-	cout<<"\nNhap ngay: "; 
-	do{ 
-		cin>>ql[n].ns.Ngay;
-		if(ql[n].ns.Ngay <=0 || ql[n].ns.Ngay >31)
-			cout<<"->Khong co ngay nay!";
-	}while(ql[n].ns.Ngay <=0 || ql[n].ns.Ngay >31);
-	cout<<"Nhap thang: ";
-	do{
-		cin>>ql[n].ns.Thang;
-		if(ql[n].ns.Thang <=0 || ql[n].ns.Thang >12)
-			cout<<"->Khong co thang nay!";
-	}while(ql[n].ns.Thang <=0 || ql[n].ns.Thang >12 );
-	cout<<"Nhap nam: "; 
-	do{
-		cin>>ql[n].ns.Nam;
-		if(ql[n].ns.Nam <=0 || ql[n].ns.Nam >2023)
-			cout<<"->Khong co nam nay!";
-	}while(ql[n].ns.Nam <=0 || ql[n].ns.Nam >2023);
-	 cout<<"\n\t-Nhap diem-\n";
-	do{
-		cout<<"\nNhap diem toan: "; 
-		cin>>ql[n].DiemToan;
-		cout<<"Nhap diem van: ";
-		cin>>ql[n].DiemVan;
-		cout<<"Nhap diem anh: ";
-		cin>>ql[n].DiemAnh;
-		if(ql[n].DiemToan <0 || ql[n].DiemVan <0||ql[n].DiemAnh <0 || ql[n].DiemToan >10||ql[n].DiemVan >10 || ql[n].DiemAnh >10)
-			cout<<"->Ban nhap sai!";
-	}while(ql[n].DiemToan <0 || ql[n].DiemVan <0||ql[n].DiemAnh <0 || ql[n].DiemToan >10||ql[n].DiemVan >10 || ql[n].DiemAnh >10); 
-	n++;
+	int them;
+	cout<<"Nhap so sinh vien can them: "; cin>>them;
+	int j=n;
+	n += them;
+	for(int i=j;i<n;i++){
+		cout<<"Nhap sinh vien thu "<<i+1<<endl;
+		cin>>ql[i];
+	}	
 	cout<<"\t\t\t\t---DANH SACH SINH VIEN SAU KHI THEM---\n";
-	XuatThongTin(ql,a);
+	Bang(); tieude(); dongkengang();
+	for(int i=0;i<n;i++){
+        cout<<ql[i];
+        Bang();
+	}
 }
 
 void SuaThongTin(QuanLiDiem ql[],int n){
@@ -270,15 +244,13 @@ void SuaThongTin(QuanLiDiem ql[],int n){
 				}while(ql[i].ns.Nam <=0 || ql[i].ns.Nam >2023);
 				 cout<<"\n\t-Nhap diem-\n";
 				do{
-					cout<<"\nNhap diem toan: "; 
-					cin>>ql[i].DiemToan;
-					cout<<"Nhap diem van: ";
-					cin>>ql[i].DiemVan;
-					cout<<"Nhap diem anh: ";
-					cin>>ql[i].DiemAnh;
-					if(ql[i].DiemToan <0 || ql[i].DiemVan <0||ql[i].DiemAnh <0 || ql[i].DiemToan >10||ql[i].DiemVan >10 || ql[i].DiemAnh >10)
-						cout<<"->Ban nhap sai!";
-				}while(ql[i].DiemToan <0 || ql[i].DiemVan <0||ql[i].DiemAnh <0 || ql[i].DiemToan >10||ql[i].DiemVan >10 || ql[i].DiemAnh >10); 
+					cout<<"\nNhap diem toan: "; cin>>ql[i].DiemToan;
+					cout<<"Nhap diem van: ";cin>>ql[i].DiemVan;
+					cout<<"Nhap diem anh: "; cin>>ql[i].DiemAnh;
+					cout<<"Nhap diem ren luyen: "; cin>>ql[i].DiemRenLuyen;
+		        if(ql[i].DiemToan <0 || ql[i].DiemVan <0||ql[i].DiemAnh <0 || ql[i].DiemRenLuyen<0|| ql[i].DiemToan >10||ql[i].DiemVan >10 || ql[i].DiemAnh >10||ql[i].DiemRenLuyen>100)
+		            cout<<"->Ban nhap sai!";
+		    }while(ql[i].DiemToan <0 || ql[i].DiemVan <0||ql[i].DiemAnh <0 ||ql[i].DiemRenLuyen<0 || ql[i].DiemToan >10||ql[i].DiemVan >10 || ql[i].DiemAnh >10||ql[i].DiemRenLuyen>100); 
 		cout<<"\t\t\t---DANH SACH SINH VIEN SAU KHI SUA---\n\n";
 		XuatThongTin(ql,n);
 		}
@@ -462,9 +434,9 @@ void DocFileCsv(QuanLiDiem ql[],int n){
 } 
 
 int main(){
-    int n;
-	QuanLiDiem ql[100];
-	//QuanLi*ql= new QuanLi;
+//	QuanLiDiem ql[100];
+	int n;
+	QuanLiDiem*ql = new QuanLiDiem;
     tieptuc:{
 	int a; 
 	cout<<"\n\n*******************<QUAN LI SINH VIEN>*******************"<<endl;
@@ -485,9 +457,9 @@ int main(){
     switch(a){
     	case 1: {
     		cout<<"\n->Nhap so sinh vien: ";
-		    do{
-		    	cin>>n;
-		    	if(n <0) cout<<"Ban nhap sai!\n";
+			do{
+			    cin>>n;
+		        if(n <0) cout<<"Ban nhap sai!\n";
 			}while(n <0);
     		NhapThongTin(ql,n);
 			break;
@@ -526,19 +498,19 @@ int main(){
 			switch(b){
 				case 1:{
 					cout<<"\t\t---DANH SACH SINH VIEN GIAM DAN THEO DIEM TRUNG BINH---\n"<<endl; dongketieude();
-					cout<<"\t\t\tDANH SACH SINH VIEN"<<endl; dongketieude();
+					cout<<"\t\t\tDANH SACH SINH VIEN"<<endl;
 					XapXepDiemTrungBinhGiam(ql,n);
 					break;
 				}
 				case 2:{
 					cout<<"\t\t---DANH SACH SINH VIEN TANG DAN THEO DIEM TRUNG BINH---\n"<<endl; dongketieude();
-					cout<<"\t\t\tDANH SACH SINH VIEN"<<endl; dongketieude();
+					cout<<"\t\t\tDANH SACH SINH VIEN"<<endl; 
 					XapXepDiemTrungBinhTang(ql,n);
 					break;
 				}
 				case 3:{
 					cout<<"\t\t---DANH SACH SINH VIEN TANG DAN THEO TEN---\n"<<endl; dongketieude();
-					cout<<"\t\t\tDANH SACH SINH VIEN"<<endl; dongketieude();
+					cout<<"\t\t\tDANH SACH SINH VIEN"<<endl; 
 				    XapXepTheoTen(ql,n);
 					break;
 				}
