@@ -157,6 +157,7 @@ istream&operator>>(istream&is,QuanLiDiem & ql){
     ql.QuanLiSinhVien::NhapDanhSach();
     cout<<"\n\t-Nhap diem-\n";
     do{
+		fflush(stdin);
 		cout<<"\nNhap diem toan: "; is>>ql.DiemToan;
     	cout<<"Nhap diem van: "; is>>ql.DiemVan;
 		cout<<"Nhap diem anh: "; is>>ql.DiemAnh;
