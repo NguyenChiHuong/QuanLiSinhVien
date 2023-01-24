@@ -6,174 +6,175 @@
 #include<fstream>
 using namespace std;
 
-struct NgaySinh{
-    int Ngay,Thang,Nam;
+struct Date_Of_Birth{
+    int Day,Month,Year;
 };
 
-class QuanLiSinhVien{
+class Student_Management{
     public:
-        char MaSo[10];
-        char HoTen[10];
-        char Lop[10];
-        char QueQuan[10];
-        NgaySinh ns;
+        char Number_Code[10];
+        char Name[10];
+        char Classes[10];
+        char Home_Town[10];
+        Date_Of_Birth ns;
     public:
-        QuanLiSinhVien(){}
-        QuanLiSinhVien(char*ms,char*ht,char*lop,char*qq){
-            strcpy(this->MaSo,ms);
-            strcpy(this->HoTen,ht);
-            strcpy(this->Lop,lop);
-            strcpy(this->QueQuan,qq);
+        Student_Management(){}
+        Student_Management(char*ms,char*ht,char*Classes,char*qq){
+            strcpy(this->Number_Code,ms);
+            strcpy(this->Name,ht);
+            strcpy(this->Classes,Classes);
+            strcpy(this->Home_Town,qq);
         }
-        ~QuanLiSinhVien(){}
-        void NhapDanhSach();
-        void ThongTin();
+        ~Student_Management(){}
+        void Input_list();
+        void Display();
 };
-void QuanLiSinhVien::NhapDanhSach(){
+void Student_Management::Input_list(){
     cout<<"\t-Nhap sinh vien-\n";
-    cout<<"\nNhap ma so: "; fflush(stdin); cin.getline(MaSo,10);
-    cout<<"Nhap ho ten: "; cin.getline(HoTen,10);
-    cout<<"Nhap lop: "; cin.getline(Lop,10);
-    cout<<"Nhap que quan: "; cin.getline(QueQuan,10);
+    cout<<"\nNhap ma so: "; fflush(stdin); cin.getline(Number_Code,10);
+    cout<<"Nhap ho ten: "; cin.getline(Name,10);
+    cout<<"Nhap lop: "; cin.getline(Classes,10);
+    cout<<"Nhap que quan: "; cin.getline(Home_Town,10);
     cout<<"\n\t-Nhap ngay sinh-\n";
     cout<<"\nNhap ngay: "; 
     do{ 
-    	cin>>ns.Ngay;
-    	if(ns.Ngay <=0 || ns.Ngay >31)
-    		cout<<"Khong co ngay nay!";
-	}while(ns.Ngay <=0 || ns.Ngay >31);
+    	cin>>ns.Day;
+    	if(ns.Day <=0 || ns.Day >31)
+    		cout<<"Khong co nam nay!";
+	}while(ns.Day <=0 || ns.Day >31);
     cout<<"Nhap thang: ";
 	do{
-		cin>>ns.Thang;
-		if(ns.Thang <=0 || ns.Thang >12)
+		cin>>ns.Month;
+		if(ns.Month <=0 || ns.Month >12)
 			cout<<"->Khong co thang nay!";
-	}while(ns.Thang <=0 || ns.Thang >12 );
+	}while(ns.Month <=0 || ns.Month >12 );
     cout<<"Nhap nam: "; 
     do{
-    	cin>>ns.Nam;
-    	if(ns.Nam <=0 || ns.Nam >2023)
+    	cin>>ns.Year;
+    	if(ns.Year <=0 || ns.Year >2023)
     		cout<<"->Khong co nam nay!";
-	}while(ns.Nam <=0 || ns.Nam >2023);
+	}while(ns.Year <=0 || ns.Year >2023);
 }
 
-void QuanLiSinhVien::ThongTin(){
-    cout<<"|"<<setw(5)<<MaSo<<"|"<<setw(15)<<HoTen<<"|"<<setw(10)<<Lop<<"|"<<setw(12)<<QueQuan
-        <<"|"<<setw(2)<<ns.Ngay<<"/"<<setw(2)<<ns.Thang<<"/"<<setw(4)<<ns.Nam<<"|";
+void Student_Management::Display(){
+    cout<<"|"<<setw(5)<<Number_Code<<"|"<<setw(15)<<Name<<"|"<<setw(10)<<Classes<<"|"<<setw(12)<<Home_Town
+        <<"|"<<setw(2)<<ns.Day<<"/"<<setw(2)<<ns.Month<<"/"<<setw(4)<<ns.Year<<"|";
 }
 
-class QuanLiDiem:public QuanLiSinhVien{
+class Scholarship_Management:public Student_Management{
     public:
-        float DiemToan,DiemVan,DiemAnh;
-		int DiemRenLuyen;
+        float Math_point,Literature_point,English_point;
+		int Practise_point;
     public:
-        QuanLiDiem(){}
-        QuanLiDiem(char*ms,char*ht,char*lop,char*qq,float dt,float dv,float da,int drl):QuanLiSinhVien(ms,ht,lop,qq){
-            this->DiemToan = dt;
-            this->DiemVan = dv;
-            this->DiemAnh = da;
-			this->DiemRenLuyen =drl;
+        Scholarship_Management(){}
+        Scholarship_Management(char*ms,char*ht,char*Classes,char*qq,float dt,float dv,float da,int drl):Student_Management(ms,ht,Classes,qq){
+            this->Math_point = dt;
+            this->Literature_point = dv;
+            this->English_point = da;
+			this->Practise_point =drl;
         }
-        ~QuanLiDiem(){}
+        ~Scholarship_Management(){}
         
-        float DiemTrungBinh(){
-            return (this->DiemToan + this->DiemVan +this->DiemAnh) / 3;
+        float Medium_point(){
+            return (this->Math_point + this->Literature_point +this->English_point) / 3;
         }
         
-        string HocLuc(){
-			if(DiemTrungBinh() >=9 && DiemTrungBinh() <=10 &&(DiemRenLuyen >=90))
+        string Ranked_academic(){
+			if(Medium_point() >=9 && Medium_point() <=10 &&(Practise_point >=90))
 				return "Xuat sac";
-            else if(DiemTrungBinh() >= 8 && DiemTrungBinh() <9 && (DiemRenLuyen >=80 && DiemRenLuyen < 90))
+            else if(Medium_point() >= 8 && Medium_point() <9 && (Practise_point >=80 && Practise_point < 90))
                 return "Gioi";
-            else if(DiemTrungBinh() >=6.5 && DiemTrungBinh() <8 && (DiemRenLuyen >=60 && DiemRenLuyen < 80))
+            else if(Medium_point() >=6.5 && Medium_point() <8 && (Practise_point >=60 && Practise_point < 80))
                 return "Kha";
-            else if(DiemTrungBinh() >=4 && DiemTrungBinh() <6.5)
+            else if(Medium_point() >=4 && Medium_point() <6.5)
 				return "Trung Binh";
             else    
 				return "Yeu";
         }
     
-		int HocBong(){
-			if(HocLuc()=="Xuat sac") 
+		int Scholarships(){
+			if(Ranked_academic()=="Xuat sac") 
 				return 10000000;
-			else if(HocLuc()=="Gioi") 
+			else if(Ranked_academic()=="Gioi") 
 				return 8000000;
-			else if(HocLuc()=="Kha") 
+			else if(Ranked_academic()=="Kha") 
 				return 6000000;
 			else return 0;
 		}
 
-        friend bool operator < (QuanLiDiem a,float b){
-        	if(a.DiemTrungBinh() < b)
+        friend bool operator < (Scholarship_Management a,float b){
+        	if(a.Medium_point() < b)
         		return true;
         	else
         		return false;
 		}
 		
-		friend bool operator < (QuanLiDiem c ,char*d ){
-			return strcmp(c.HoTen,d)<0;
+		friend bool operator < (Scholarship_Management c ,char*d ){
+			return strcmp(c.Name,d)<0;
 		}
 		
-		bool TimKiemMa(const char*e){
-			return strcmp(this->MaSo,e)==0;
+		bool Code_search(const char*e){
+			return strcmp(this->Number_Code,e)==0;
 		}
 		
-		bool TimKiemTen(const char*f){
-			return strcmp(this->HoTen,f)==0;
+		bool Name_search(const char*f){
+			return strcmp(this->Name,f)==0;
 		}
 		
-		bool TimKiemLop(const char*g){
-			return strcmp(this->Lop,g)==0;
+		bool Class_search(const char*g){
+			return strcmp(this->Classes,g)==0;
         }
-        friend istream&operator>>(istream&is,QuanLiDiem &ql);
-        friend ostream&operator<<(ostream&os,QuanLiDiem ql);
+        friend istream&operator>>(istream&is,Scholarship_Management &ql);
+        friend ostream&operator<<(ostream&os,Scholarship_Management ql);
 };
-void dongnhande(){
+void Star_line(){
 	for(int i=0;i<57;i++){cout<<"*";}
 	cout<<"\n";
 }
 
-void dongketieude(){
+void Double_line(){
     for(int i=0;i<137;i++){cout<<"=";}
     cout<<"\n";
 }
 
-void dongkengang(){
+void Width_line(){
 	for(int i=0;i<137;i++){cout<<"-";}
 	cout<<"\n";
 }
 
-void tieude(){
+void Title(){
     cout<<"|"<<setw(5)<<left<<"Ma so"<<"|"<<setw(15)<<left<<"Ho ten"<<"|"<<setw(10)<<left<<"Lop"<<"|"<<setw(12)<<left<<"Que quan"
         <<"|"<<setw(10)<<"Ngay sinh"<<"|"<<setw(5)<<"Diem toan"<<"|"<<setw(8)<<"Diem van"<<"|"<<setw(8)<<"Diem anh"<<"|";
-    cout<<setw(13)<<"DiemTrungBinh"<<"|"<<setw(10)<<"Hoc luc"<<"|"<<setw(13)<<"Diem ren luyen"<<"|"<<setw(10)<<"Hoc bong"<<setw(2)<<"|"<<endl;
+    cout<<setw(13)<<"Diemtrungbinh"<<"|"<<setw(10)<<"Hoc luc"<<"|"<<setw(13)<<"Diem ren luyen"<<"|"<<setw(10)<<"Hoc bong"<<setw(2)<<"|"<<endl;
 }
 
-void Bang(){
+void Table_line(){
 	cout<<"+"<<"-----"<<"+"<<"---------------"<<"+"<<"----------"<<"+"<<"------------"<<"+"
         <<"----------"<<"+"<<"---------"<<"+"<<"--------"<<"+"<<"--------"<<"+";
     cout<<"-------------"<<"+"<<"----------"<<"+"<<"--------------"<<"+"<<"----------"<<"+"<<endl;
 }
-istream&operator>>(istream&is,QuanLiDiem & ql){
-    ql.QuanLiSinhVien::NhapDanhSach();
+istream&operator>>(istream&is,Scholarship_Management & ql){
+    ql.Student_Management::Input_list();
     cout<<"\n\t-Nhap diem-\n";
     do{
 		fflush(stdin);
-		cout<<"\nNhap diem toan: "; is>>ql.DiemToan;
-    	cout<<"Nhap diem van: "; is>>ql.DiemVan;
-		cout<<"Nhap diem anh: "; is>>ql.DiemAnh;
-		cout<<"Nhap diem ren luyen: "; is>>ql.DiemRenLuyen;
-        if(ql.DiemToan <0 || ql.DiemVan <0||ql.DiemAnh <0 || ql.DiemRenLuyen<0|| ql.DiemToan >10||ql.DiemVan >10 || ql.DiemAnh >10||ql.DiemRenLuyen>100)
+
+		cout<<"\nNhap diem toan: "; is>>ql.Math_point;
+    	cout<<"Nhap diem van: "; is>>ql.Literature_point;
+		cout<<"Nhap diem anh: "; is>>ql.English_point;
+		cout<<"Nhap diem ren luyen: "; is>>ql.Practise_point;
+        if(ql.Math_point <0 || ql.Literature_point <0||ql.English_point <0 || ql.Practise_point<0|| ql.Math_point >10||ql.Literature_point >10 || ql.English_point >10||ql.Practise_point>100)
             cout<<"->Ban nhap sai!";
-    }while(ql.DiemToan <0 || ql.DiemVan <0||ql.DiemAnh <0 ||ql.DiemRenLuyen<0 || ql.DiemToan >10||ql.DiemVan >10 || ql.DiemAnh >10||ql.DiemRenLuyen>100); 
+    }while(ql.Math_point <0 || ql.Literature_point <0||ql.English_point <0 ||ql.Practise_point<0 || ql.Math_point >10||ql.Literature_point >10 || ql.English_point >10||ql.Practise_point>100); 
     return is;
 }
-ostream&operator<<(ostream&os,QuanLiDiem ql){
-    ql.QuanLiSinhVien::ThongTin();
-    os<<setw(9)<<ql.DiemToan<<"|"<<setw(8)<<ql.DiemVan<<"|"<<setw(8)<<ql.DiemAnh<<"|"<<setw(13)<<ql.DiemTrungBinh()<<"|"
-        <<setw(10)<<ql.HocLuc()<<"|"<<setw(14)<<ql.DiemRenLuyen<<"|"<<setw(10)<<ql.HocBong()<<setw(2)<<"|"<<endl; 
+ostream&operator<<(ostream&os,Scholarship_Management ql){
+    ql.Student_Management::Display();
+    os<<setw(9)<<ql.Math_point<<"|"<<setw(8)<<ql.Literature_point<<"|"<<setw(8)<<ql.English_point<<"|"<<setw(13)<<ql.Medium_point()<<"|"
+        <<setw(10)<<ql.Ranked_academic()<<"|"<<setw(14)<<ql.Practise_point<<"|"<<setw(10)<<ql.Scholarships()<<setw(2)<<"|"<<endl; 
     return os;
 }
-void NhapThongTin(QuanLiDiem ql[],int n){
+void Input_Display(Scholarship_Management ql[],int n){
 	int duyet = 0;
     for(int i=0;i<n;i++){
 		do{
@@ -181,264 +182,263 @@ void NhapThongTin(QuanLiDiem ql[],int n){
 			cout<<"\n$ Sinh vien thu "<<i+1<<" $"<<endl;
         	cin>>ql[i];
 			for(int j=0;j<i;j++){
-				if(ql[j].MaSo == ql[i].MaSo){
+				if(ql[j].Number_Code == ql[i].Number_Code){
 					cout<<"-Da co sinh vien nay,moi ban nhap lai!"<<endl;
 					duyet++; 
 				}
 			}
 		}while(duyet != 0);
-    }cout<<endl; dongketieude();
+    }cout<<endl; Double_line();
 }
 
-void XuatThongTin(QuanLiDiem ql[],int n){
-	Bang(); tieude(); dongkengang();
+void Output_Display(Scholarship_Management ql[],int n){
+	Table_line(); Title(); Width_line();
     for(int i=0;i<n;i++){
         cout<<ql[i];
-        Bang();
+        Table_line();
     } cout<<"\n\n";
 } 
-void ThemThongTin(QuanLiDiem ql[],int n){
-	int them;
-	cout<<"Nhap so sinh vien can them: "; cin>>them;
+void Add_Display(Scholarship_Management ql[],int n){
+	int add;
+	cout<<"Nhap so sinh vien can them: "; cin>>add;
 	int j=n;
-	n += them;
+	n += add;
 	for(int i=j;i<n;i++){
 		cout<<"Nhap sinh vien thu "<<i+1<<endl;
 		cin>>ql[i];
 	}	
 	cout<<"\t\t\t\t---DANH SACH SINH VIEN SAU KHI THEM---\n";
-	Bang(); tieude(); dongkengang();
+	Table_line(); Title(); Width_line();
 	for(int i=0;i<n;i++){
         cout<<ql[i];
-        Bang();
+        Table_line();
 	}
 }
 
-void SuaThongTin(QuanLiDiem ql[],int n){
-	char Sua[10];
-	cout<<"-Nhap ma so sinh vien can sua: ";fflush(stdin); cin.getline(Sua,10);
+void Alter_Display(Scholarship_Management ql[],int n){
+	char alter[10];
+	cout<<"-Nhap ma so sinh vien can sua: ";fflush(stdin); cin.getline(alter,10);
 	for(int i=0;i<n;i++){
-		if(strcmp(Sua,ql[i].MaSo)==0){
-				cout<<"\t-Nhap sinh vien sua-\n";
-				cout<<"\nNhap ma so: "; fflush(stdin); cin.getline(ql[i].MaSo,10);
-				cout<<"Nhap ho ten: "; cin.getline(ql[i].HoTen,10);
-				cout<<"Nhap lop: "; cin.getline(ql[i].Lop,10);
-				cout<<"Nhap que quan: "; cin.getline(ql[i].QueQuan,10);
+		if(strcmp(alter,ql[i].Number_Code)==0){
+				cout<<"\t-Nhap sinh vien can sua-\n";
+				cout<<"\nNhap ma so: "; fflush(stdin); cin.getline(ql[i].Number_Code,10);
+				cout<<"Nhap ho ten: "; cin.getline(ql[i].Name,10);
+				cout<<"Nhap lop: "; cin.getline(ql[i].Classes,10);
+				cout<<"Nhap que quan: "; cin.getline(ql[i].Home_Town,10);
 				cout<<"\n\t-Nhap ngay sinh-\n";
 				cout<<"\nNhap ngay: "; 
 				do{ 
-					cin>>ql[i].ns.Ngay;
-					if(ql[i].ns.Ngay <=0 || ql[i].ns.Ngay >31)
+					cin>>ql[i].ns.Day;
+					if(ql[i].ns.Day <=0 || ql[i].ns.Day >31)
 						cout<<"->Khong co ngay nay!";
-				}while(ql[i].ns.Ngay <=0 || ql[i].ns.Ngay >31);
+				}while(ql[i].ns.Day <=0 || ql[i].ns.Day >31);
 				cout<<"Nhap thang: ";
 				do{
-					cin>>ql[i].ns.Thang;
-					if(ql[i].ns.Thang <=0 || ql[i].ns.Thang >12)
+					cin>>ql[i].ns.Month;
+					if(ql[i].ns.Month <=0 || ql[i].ns.Month >12)
 						cout<<"->Khong co thang nay!";
-				}while(ql[i].ns.Thang <=0 || ql[i].ns.Thang >12 );
+				}while(ql[i].ns.Month <=0 || ql[i].ns.Month >12 );
 				cout<<"Nhap nam: "; 
 				do{
-					cin>>ql[i].ns.Nam;
-					if(ql[i].ns.Nam <=0 || ql[i].ns.Nam >2023)
+					cin>>ql[i].ns.Year;
+					if(ql[i].ns.Year <=0 || ql[i].ns.Year >2023)
 						cout<<"->Khong co nam nay!";
-				}while(ql[i].ns.Nam <=0 || ql[i].ns.Nam >2023);
+				}while(ql[i].ns.Year <=0 || ql[i].ns.Year >2023);
 				 cout<<"\n\t-Nhap diem-\n";
 				do{
-					cout<<"\nNhap diem toan: "; cin>>ql[i].DiemToan;
-					cout<<"Nhap diem van: ";cin>>ql[i].DiemVan;
-					cout<<"Nhap diem anh: "; cin>>ql[i].DiemAnh;
-					cout<<"Nhap diem ren luyen: "; cin>>ql[i].DiemRenLuyen;
-		        if(ql[i].DiemToan <0 || ql[i].DiemVan <0||ql[i].DiemAnh <0 || ql[i].DiemRenLuyen<0|| ql[i].DiemToan >10||ql[i].DiemVan >10 || ql[i].DiemAnh >10||ql[i].DiemRenLuyen>100)
+					cout<<"\nNhap diem toan: "; cin>>ql[i].Math_point;
+					cout<<"Nhap diem van: ";cin>>ql[i].Literature_point;
+					cout<<"Nhap diem anh: "; cin>>ql[i].English_point;
+					cout<<"Nhap diem ren luyen: "; cin>>ql[i].Practise_point;
+		        if(ql[i].Math_point <0 || ql[i].Literature_point <0||ql[i].English_point <0 || ql[i].Practise_point<0|| ql[i].Math_point >10||ql[i].Literature_point >10 || ql[i].English_point >10||ql[i].Practise_point>100)
 		            cout<<"->Ban nhap sai!";
-		    }while(ql[i].DiemToan <0 || ql[i].DiemVan <0||ql[i].DiemAnh <0 ||ql[i].DiemRenLuyen<0 || ql[i].DiemToan >10||ql[i].DiemVan >10 || ql[i].DiemAnh >10||ql[i].DiemRenLuyen>100); 
+		    }while(ql[i].Math_point <0 || ql[i].Literature_point <0||ql[i].English_point <0 ||ql[i].Practise_point<0 || ql[i].Math_point >10||ql[i].Literature_point >10 || ql[i].English_point >10||ql[i].Practise_point>100); 
 		cout<<"\t\t\t---DANH SACH SINH VIEN SAU KHI SUA---\n\n";
-		XuatThongTin(ql,n);
+		Output_Display(ql,n);
 		}
 	}
 }
-void XoaThongTin(QuanLiDiem ql[],int n){
-	char Xoa[10];
-	cout<<"-Nhap ma so sinh vien can xoa: ";fflush(stdin); cin.getline(Xoa,10);
+void Delete_Display(Scholarship_Management ql[],int n){
+	char deletes[10];
+	cout<<"-Nhap ma so sinh vien can xoa: ";fflush(stdin); cin.getline(deletes,10);
 	for(int i=0;i<n;i++){
-		if(strcmp(Xoa,ql[i].MaSo)==0){
+		if(strcmp(deletes,ql[i].Number_Code)==0){
 			ql[i] = ql[i+1];
 			i--;
 			n--;
 		}
 	}
 	cout<<"\t\t\tDANH SACH SINH VIEN SAU KHI XOA\n";
-	Bang(); tieude(); Bang();
-	XuatThongTin(ql,n);
+	Output_Display(ql,n);
 }
-void XapXepDiemTrungBinhGiam(QuanLiDiem ql[],int n){
+void Arrange_Medium_point_down(Scholarship_Management ql[],int n){
 	for(int i=0;i<n;i++){
     	for(int j=i+1;j<n;j++){
-    		if(ql[i].DiemTrungBinh() < ql[j].DiemTrungBinh()){
-    			QuanLiDiem tg = ql[i];
+    		if(ql[i].Medium_point() < ql[j].Medium_point()){
+    			Scholarship_Management tg = ql[i];
     				ql[i] = ql[j];
     				ql[j] = tg;
 			}
 		}
 	} 
-	dongkengang();
-	XuatThongTin(ql,n); 
+	Output_Display(ql,n); 
 	cout<<"\n\n";
 } 
 
-void XapXepDiemTrungBinhTang(QuanLiDiem ql[],int n){
+void Arrange_Medium_point_up(Scholarship_Management ql[],int n){
 	for(int i=0;i<n;i++){
     	for(int j=i+1;j<n;j++){
-    		if(ql[i].DiemTrungBinh() > ql[j].DiemTrungBinh()){
-    			QuanLiDiem tg = ql[i];
+    		if(ql[i].Medium_point() > ql[j].Medium_point()){
+    			Scholarship_Management tg = ql[i];
     				ql[i] = ql[j];
     				ql[j] = tg;
 			}
 		}
 	}
-	dongkengang();
-	XuatThongTin(ql,n);
+	Double_line();
+	Output_Display(ql,n);
 	cout<<"\n\n";
 } 
 
-void XapXepTheoTen(QuanLiDiem ql[],int n){
+void Arrange_Name(Scholarship_Management ql[],int n){
 	char c[10];
 	char d[10];
 	for(int i=0;i<n;i++){
-		strcpy(c,ql[i].HoTen);
+		strcpy(c,ql[i].Name);
     	for(int j=i+1;j<n;j++){
-    		strcpy(d,ql[j].HoTen);
+    		strcpy(d,ql[j].Name);
     		if(strcmp(strupr(c),strupr(d))<0){
-    			QuanLiDiem tg = ql[i];
+    			Scholarship_Management tg = ql[i];
     				ql[i] = ql[j];
     				ql[j] = tg;
 			}
 		}
 	}
-	XuatThongTin(ql,n);
+	Double_line();
+	Output_Display(ql,n);
 }
 
-void TimKiemMa(QuanLiDiem ql[],int n){
+void Code_search(Scholarship_Management ql[],int n){
 	char g[10];
 	cout<<"\t-Nhap ma can tim kiem: "; cin>>g;
-	dongketieude();
-	cout<<"\t\t\tDANH SACH SINH VIEN"<<endl; dongketieude(); Bang(); tieude(); Bang();
+	Double_line();
+	cout<<"\t\t\tDANH SACH SINH VIEN"<<endl; Double_line(); Table_line(); Title(); Table_line();
 	for(int i=0;i<n;i++){
-		if(strcmp(ql[i].MaSo,g)==0){
+		if(strcmp(ql[i].Number_Code,g)==0){
 			cout<<ql[i];
-			Bang();
-		}
+			Table_line();
+		} else cout<<"-Khong co ma sinh vien nay!";
 	}
 }
 
-void TimKiemTen(QuanLiDiem ql[],int n){
+void Name_search(Scholarship_Management ql[],int n){
 	char f[10];
-	cout<<"\t-Nhap ten can tim kiem: "; cin>>f; dongketieude();
-	cout<<setw(60)<<"\t\t\tDANH SACH SINH VIEN"<<endl; dongketieude(); Bang(); tieude(); Bang();
+	cout<<"\t-Nhap ten can tim kiem: "; cin>>f; Double_line();
+	cout<<setw(60)<<"\t\t\tDANH SACH SINH VIEN"<<endl; Double_line(); Table_line(); Title(); Table_line();
 	for(int i=0;i<n;i++){
-		if(strcmp(ql[i].HoTen,f)==0){
+		if(strcmp(ql[i].Name,f)==0){
 			cout<<ql[i];
-			Bang();
+			Table_line();
 		}else cout<<"-Khong co ten sinh vien nay!";
 	}
 }
 
-void TimKiemLop(QuanLiDiem ql[],int n){
+void Class_search(Scholarship_Management ql[],int n){
 	char g[10];
-	cout<<"\t-Nhap lop can tim kiem: "; cin>>g; dongketieude();
-	cout<<setw(60)<<"\t\t\tDANH SACH SINH VIEN"<<endl; dongketieude(); Bang(); tieude(); Bang();
+	cout<<"\t-Nhap lop can tim kiem: "; cin>>g; Double_line();
+	cout<<setw(60)<<"\t\t\tDANH SACH SINH VIEN"<<endl; Double_line(); Table_line(); Title(); Table_line();
 	for(int i=0;i<n;i++){
-		if(strcmp(ql[i].Lop,g)==0){
+		if(strcmp(ql[i].Classes,g)==0){
 			cout<<ql[i];
-			Bang();
+			Table_line();
 		}else cout<<"-Khong co lop nay!";
 	}
 }
 
-void TimKiemQueQuan(QuanLiDiem ql[],int n){
+void Home_Town_search(Scholarship_Management ql[],int n){
 	char q[10];
-	cout<<"\t-Nhap que quan can tim kiem: "; cin>>q; dongketieude();
-	cout<<setw(60)<<"\t\t\tDANH SACH SINH VIEN"<<endl; dongketieude(); Bang(); tieude(); Bang();
+	cout<<"\t-Nhap que quan can tim kiem: "; cin>>q; Double_line();
+	cout<<setw(60)<<"\t\t\tDANH SACH SINH VIEN"<<endl; Double_line(); Table_line(); Title(); Table_line();
 	for(int i=0;i<n;i++){
-		if(strcmp(ql[i].QueQuan,q)==0){
+		if(strcmp(ql[i].Home_Town,q)==0){
 			cout<<ql[i];
-			Bang();
+			Table_line();
 		}else cout<<"-Khong co que quan nay!";
 	}
 } 
 
-void GhiFileTxt(QuanLiDiem ql[],int n){
+void Write_FileTxt(Scholarship_Management ql[],int n){
 	ofstream file;
 	file.open("QLSV.txt",ios::out);
 	if(!file){
 		cerr<<"-Khong the ghi file .txt"<<endl;
 	}
 	file<<"Ma so"<<" "<<"Ho ten"<<" "<<"Lop"<<" "<<"Que quan"<<" "<<"Ngay sinh"<<" "<<"Diem toan"<<" "
-		<<"Diem van"<<" "<<"Diem anh"<<" "<<"DiemTrungBinh"<<" "<<"Hoc luc"<<" "<<"Diem Ren Luyen"<<" "<<"Hoc bong"<<endl;
+		<<"Diem van"<<" "<<"Diem anh"<<" "<<"Diemtrungbinh"<<" "<<"Hoc luc"<<" "<<"Diem Ren Luyen"<<" "<<"Hoc bong"<<endl;
 	for(short int i=0;i<n;i++){
-		file<<left<<ql[i].MaSo<<" "<<left<<ql[i].HoTen<<" "<<left<<ql[i].Lop<<" "<<left<<ql[i].QueQuan<<" "
-			<<left<<ql[i].ns.Ngay<<"/"<<left<<ql[i].ns.Thang<<"/"<<left<<ql[i].ns.Nam<<" "
-			<<left<<ql[i].DiemToan<<" "<<left<<ql[i].DiemVan<<" "<<left<<ql[i].DiemAnh<<" "
-			<<left<<ql[i].DiemTrungBinh()<<" "<<left<<ql[i].HocLuc()<<" "
-			<<left<<ql[i].DiemRenLuyen<<" "<<left<<ql[i].HocBong()<<endl;
+		file<<left<<ql[i].Number_Code<<" "<<left<<ql[i].Name<<" "<<left<<ql[i].Classes<<" "<<left<<ql[i].Home_Town<<" "
+			<<left<<ql[i].ns.Day<<"/"<<left<<ql[i].ns.Month<<"/"<<left<<ql[i].ns.Year<<" "
+			<<left<<ql[i].Math_point<<" "<<left<<ql[i].Literature_point<<" "<<left<<ql[i].English_point<<" "
+			<<left<<ql[i].Medium_point()<<" "<<left<<ql[i].Ranked_academic()<<" "
+			<<left<<ql[i].Practise_point<<" "<<left<<ql[i].Scholarships()<<endl;
 	}
 	file.close();
 }
 
-void DocFileTxt(QuanLiDiem ql[],int n){
+void Read_FileTxt(Scholarship_Management ql[],int n){
 	ifstream file;
 	file.open("QLSV.Txt",ios::in);
 	if(!file){
 		cerr<<"-Khong the doc file .txt"<<endl;
 	}
-    Bang(); tieude(); Bang();
+    Table_line(); Title(); Table_line();
 	for(short int i=0;i<n;i++){
-		cout<<"|"<<setw(5)<<ql[i].MaSo<<"|"<<setw(15)<<ql[i].HoTen<<"|"<<setw(10)<<ql[i].Lop<<"|"<<setw(12)<<ql[i].QueQuan
-        	<<"|"<<setw(2)<<ql[i].ns.Ngay<<"/"<<setw(2)<<ql[i].ns.Thang<<"/"<<setw(4)<<ql[i].ns.Nam<<"|";
-        cout<<setw(9)<<ql[i].DiemToan<<"|"<<setw(8)<<ql[i].DiemVan<<"|"<<setw(8)<<ql[i].DiemAnh<<"|"<<setw(13)<<ql[i].DiemTrungBinh()<<"|"
-        	<<setw(10)<<ql[i].HocLuc()<<"|"<<setw(14)<<ql[i].DiemRenLuyen<<"|"<<setw(10)<<ql[i].HocBong()<<"|"<<endl; Bang();
+		cout<<"|"<<setw(5)<<ql[i].Number_Code<<"|"<<setw(15)<<ql[i].Name<<"|"<<setw(10)<<ql[i].Classes<<"|"<<setw(12)<<ql[i].Home_Town
+        	<<"|"<<setw(2)<<ql[i].ns.Day<<"/"<<setw(2)<<ql[i].ns.Month<<"/"<<setw(4)<<ql[i].ns.Year<<"|";
+        cout<<setw(9)<<ql[i].Math_point<<"|"<<setw(8)<<ql[i].Literature_point<<"|"<<setw(8)<<ql[i].English_point<<"|"<<setw(13)<<ql[i].Medium_point()<<"|"
+        	<<setw(10)<<ql[i].Ranked_academic()<<"|"<<setw(14)<<ql[i].Practise_point<<"|"<<setw(10)<<ql[i].Scholarships()<<"|"<<endl; Table_line();
 	}
 	file.close();
 } 
 
-void GhiFileCsv(QuanLiDiem ql[],int n){
+void Write_FileCsv(Scholarship_Management ql[],int n){
 	ofstream file;
 	file.open("QLSV.csv",ios::out);
 	if(!file){
 		cerr<<"-Khong the ghi file .scv"<<endl;
 	}
 	file<<"Ma so"<<","<<"Ho ten"<<","<<"Lop"<<","<<"Que quan"<<","<<"Ngay sinh"<<","<<"Diem toan"<<","
-		<<"Diem van"<<","<<"Diem anh"<<","<<"DiemTrungBinh"<<","<<"Hoc luc"<<","<<"Hoc bong"<<endl;
+		<<"Diem van"<<","<<"Diem anh"<<","<<"Diemtrungbinh"<<","<<"Hoc luc"<<","<<"Hoc bong"<<endl;
 	for(short int i=0;i<n;i++){
-		file<<left<<ql[i].MaSo<<","<<left<<ql[i].HoTen<<","<<left<<ql[i].Lop<<","<<left<<ql[i].QueQuan<<","
-			<<left<<ql[i].ns.Ngay<<"/"<<left<<ql[i].ns.Thang<<"/"<<left<<ql[i].ns.Nam<<","
-			<<left<<ql[i].DiemToan<<","<<left<<ql[i].DiemVan<<","<<left<<ql[i].DiemAnh<<","
-			<<left<<ql[i].DiemTrungBinh()<<","<<left<<ql[i].HocLuc()<<","
-			<<left<<ql[i].DiemRenLuyen<<","<<left<<ql[i].HocBong()<<endl;
+		file<<left<<ql[i].Number_Code<<","<<left<<ql[i].Name<<","<<left<<ql[i].Classes<<","<<left<<ql[i].Home_Town<<","
+			<<left<<ql[i].ns.Day<<"/"<<left<<ql[i].ns.Month<<"/"<<left<<ql[i].ns.Year<<","
+			<<left<<ql[i].Math_point<<","<<left<<ql[i].Literature_point<<","<<left<<ql[i].English_point<<","
+			<<left<<ql[i].Medium_point()<<","<<left<<ql[i].Ranked_academic()<<","
+			<<left<<ql[i].Practise_point<<","<<left<<ql[i].Scholarships()<<endl;
 	}
 	file.close();
 }
-void DocFileCsv(QuanLiDiem ql[],int n){
+void Read_FileCsv(Scholarship_Management ql[],int n){
 	ifstream file;
 	file.open("QLSV.csv",ios::in);
 	if(!file){
 		cerr<<"-Khong the doc file .scv"<<endl;
 	}
-    Bang(); tieude(); Bang();
+    Table_line(); Title(); Table_line();
 	for(short int i=0;i<n;i++){
-	cout<<"|"<<setw(5)<<ql[i].MaSo<<"|"<<setw(15)<<ql[i].HoTen<<"|"<<setw(10)<<ql[i].Lop<<"|"<<setw(12)<<ql[i].QueQuan
-        	<<"|"<<setw(2)<<ql[i].ns.Ngay<<"/"<<setw(2)<<ql[i].ns.Thang<<"/"<<setw(4)<<ql[i].ns.Nam<<"|";
-        cout<<setw(9)<<ql[i].DiemToan<<"|"<<setw(8)<<ql[i].DiemVan<<"|"<<setw(8)<<ql[i].DiemAnh<<"|"<<setw(13)<<ql[i].DiemTrungBinh()<<"|"
-        	<<setw(10)<<ql[i].HocLuc()<<"|"<<setw(14)<<ql[i].DiemRenLuyen<<"|"<<setw(10)<<ql[i].HocBong()<<"|"<<endl; Bang();
+	cout<<"|"<<setw(5)<<ql[i].Number_Code<<"|"<<setw(15)<<ql[i].Name<<"|"<<setw(10)<<ql[i].Classes<<"|"<<setw(12)<<ql[i].Home_Town
+        	<<"|"<<setw(2)<<ql[i].ns.Day<<"/"<<setw(2)<<ql[i].ns.Month<<"/"<<setw(4)<<ql[i].ns.Year<<"|";
+        cout<<setw(9)<<ql[i].Math_point<<"|"<<setw(8)<<ql[i].Literature_point<<"|"<<setw(8)<<ql[i].English_point<<"|"<<setw(13)<<ql[i].Medium_point()<<"|"
+        	<<setw(10)<<ql[i].Ranked_academic()<<"|"<<setw(14)<<ql[i].Practise_point<<"|"<<setw(10)<<ql[i].Scholarships()<<"|"<<endl; Table_line();
 	}
 	file.close();
 } 
 
 int main(){
-//	QuanLiDiem ql[100];
+	Scholarship_Management ql[100];
 	int n;
-	QuanLiDiem*ql = new QuanLiDiem;
-    tieptuc:{
+	//Scholarship_Management*ql = new Scholarship_Management;
+    continues:{
 	int a; 
 	cout<<"\n\n*******************<QUAN LI SINH VIEN>*******************"<<endl;
 	cout<<"*\t\t\t\t\t\t\t*\n*\t Nhap 1.NHAP DANH SACH SINH VIEN                *"<<endl;      
@@ -452,7 +452,7 @@ int main(){
 	cout<<"*\t\t\t\t\t\t\t*\n*\t Nhap 9.GHI-DOC DU LIEU TU FILE QLSV.scv        *"<<endl; 
 	cout<<"*\t\t\t\t\t\t\t*\n*\t Nhap 0.THOAT                                   *"<<endl;
 	cout<<"*\t\t\t\t\t\t\t*"<<endl; 						  
-	dongnhande();
+	Star_line();
     cout<<" -Moi ban nhap: ";
     cin>>a;
     switch(a){
@@ -462,29 +462,29 @@ int main(){
 			    cin>>n;
 		        if(n <0) cout<<"Ban nhap sai!\n";
 			}while(n <0);
-    		NhapThongTin(ql,n);
+    		Input_Display(ql,n);
 			break;
 		}
 		case 2: {
-			dongketieude();
-			cout<<setw(60)<<"DANH SACH SINH VIEN"<<endl; dongketieude();
+			Double_line();
+			cout<<setw(60)<<"DANH SACH SINH VIEN"<<endl; Double_line();
 			cout<<"\n"; 
-    		XuatThongTin(ql,n);
+    		Output_Display(ql,n);
 			break;
 		}
 		case 3:{
 			cout<<"\t\t\t---THEM THONG TIN SINH VIEN LEN DANH SACH---"<<endl;
-			ThemThongTin(ql,n);
+			Add_Display(ql,n);
 			break;
 		}
 		case 4:{
 			cout<<"\t\t\t---SUA THONG TIN SINH VIEN TRONG DANH SACH---"<<endl;
-			SuaThongTin(ql,n);
+			Alter_Display(ql,n);
 			break;
 		}
 		case 5:{
 			cout<<"\t\t\t---XOA THONG TIN SINH VIEN TRONG DANH SACH---"<<endl;
-			XoaThongTin(ql,n);
+			Delete_Display(ql,n);
 			break;
 		}
 		case 6:{
@@ -498,33 +498,33 @@ int main(){
 			cout<<"-Moi ban nhap: "; cin>>b; cout<<"\n";
 			switch(b){
 				case 1:{
-					cout<<"\t\t---DANH SACH SINH VIEN GIAM DAN THEO DIEM TRUNG BINH---\n"<<endl; dongketieude();
+					cout<<"\t\t---DANH SACH SINH VIEN GIAM DAN THEO DIEM TRUNG BINH---\n"<<endl; Double_line();
 					cout<<"\t\t\tDANH SACH SINH VIEN"<<endl;
-					XapXepDiemTrungBinhGiam(ql,n);
+					Arrange_Medium_point_down(ql,n);
 					break;
 				}
 				case 2:{
-					cout<<"\t\t---DANH SACH SINH VIEN TANG DAN THEO DIEM TRUNG BINH---\n"<<endl; dongketieude();
+					cout<<"\t\t---DANH SACH SINH VIEN TANG DAN THEO DIEM TRUNG BINH---\n"<<endl; Double_line();
 					cout<<"\t\t\tDANH SACH SINH VIEN"<<endl; 
-					XapXepDiemTrungBinhTang(ql,n);
+					Arrange_Medium_point_up(ql,n);
 					break;
 				}
 				case 3:{
-					cout<<"\t\t---DANH SACH SINH VIEN TANG DAN THEO TEN---\n"<<endl; dongketieude();
+					cout<<"\t\t---DANH SACH SINH VIEN TANG DAN THEO TEN---\n"<<endl; Double_line();
 					cout<<"\t\t\tDANH SACH SINH VIEN"<<endl; 
-				    XapXepTheoTen(ql,n);
+				    Arrange_Name(ql,n);
 					break;
 				}
-				dung1:case 0:exit(0);
+				stop1:case 0:exit(0);
 				default:
 				cout<<"->Ban nhap khong dung!";
 				break;
 			}
-			char traloi1;	
+			char answer1;	
 			cout<<"-Ban muon tiep tuc (y/n)?: ";
-			cin>>traloi1;
-			if(traloi1=='y' || traloi1=='Y') goto tieptuc;
-			if(traloi1=='n' || traloi1=='N') goto dung1;
+			cin>>answer1;
+			if(answer1=='y' || answer1=='Y') goto continues;
+			if(answer1=='n' || answer1=='N') goto stop1;
 		}
 		case 7: int c; cout<<"\n";
 			cout<<"=================XAP XEP SINH VIEN=================="<<endl; 
@@ -538,34 +538,34 @@ int main(){
 			switch(c){
 				case 1:{
 					cout<<"\t\t---DANH SACH SINH VIEN TIM KIEM THEO MA SO---\n"<<endl; 
-				    TimKiemMa(ql,n);
+				    Code_search(ql,n);
 					break;
 				}
 				case 2:{
 					cout<<"\t\t---DANH SACH SINH VIEN TIM KIEM THEO TEN---\n"<<endl; 
-				    TimKiemTen(ql,n);
+				    Name_search(ql,n);
 					break;
 				}
 				case 3:{
 					cout<<"\t\t---DANH SACH SINH VIEN TIM KIEM THEO LOP---\n"<<endl;
-				    TimKiemLop(ql,n);
+				    Class_search(ql,n);
 					break;
 				}
 				case 4:{
-					cout<<"\t\t---DANH SACH SINH VIEN TIM KIEM THEO QYE QUAN---\n"<<endl; 
-				    TimKiemQueQuan(ql,n);
+					cout<<"\t\t---DANH SACH SINH VIEN TIM KIEM THEO QUE QUAN---\n"<<endl; 
+				    Home_Town_search(ql,n);
 					break;
 				}
-				dung2:case 0:exit(0);
+				stop2:case 0:exit(0);
 				default:
 				cout<<"->Ban nhap khong dung!";
 				break;
 			}
-			char traloi2;	
+			char answer2;	
 			cout<<"-Ban muon tiep tuc (y/n)?: ";
-			cin>>traloi2;
-			if(traloi2=='y' || traloi2=='Y') goto tieptuc;
-			if(traloi2=='n' || traloi2=='N') goto dung2;
+			cin>>answer2;
+			if(answer2=='y' || answer2=='Y') goto continues;
+			if(answer2=='n' || answer2=='N') goto stop2;
 			
 		case 8:{
 			int d; cout<<"\n";
@@ -579,25 +579,25 @@ int main(){
 			{
 			case 1:
 				cout<<"\n\t\t\t---GHI DU LIEU VAO FILE QLSV.txt---"<<endl;
-				XuatThongTin(ql,n);
-				GhiFileTxt(ql,n);
+				Output_Display(ql,n);
+				Write_FileTxt(ql,n);
 				cout<<"\n-Ghi file .txt thanh cong";
 				break;
 			case 2:
 				cout<<"\n\t\t\t---DOC DU LIEU VAO FILE QLSV.txt---"<<endl;
-				DocFileTxt(ql,n);
+				Read_FileTxt(ql,n);
 				cout<<"\n->Doc file .txt thanh cong";
 				break;
-			dung3:case 0:exit(0);
+			stop3:case 0:exit(0);
 			default:
 				cout<<"->Ban nhap khong dung!";
 				break;
 			}
-			char traloi3;
+			char answer3;
 			cout<<"-Ban muon tiep tuc (y/n)?: ";
-			cin>>traloi3;
-			if(traloi3=='y' || traloi3=='Y') goto tieptuc;
-			if(traloi3=='n' || traloi3=='N') goto dung3;
+			cin>>answer3;
+			if(answer3=='y' || answer3=='Y') goto continues;
+			if(answer3=='n' || answer3=='N') goto stop3;
 		}	
 		case 9:{
 			int e; cout<<"\n";
@@ -611,37 +611,37 @@ int main(){
 			{
 			case 1:
 				cout<<"\n\t\t\t---GHI DU LIEU VAO FILE QLSV.scv---"<<endl;
-				XuatThongTin(ql,n);
-				GhiFileCsv(ql,n);
+				Output_Display(ql,n);
+				Write_FileCsv(ql,n);
 				cout<<"\n->Ghi file .scv thanh cong.";
 				break;
 			case 2:
 				cout<<"\n\t\t\t---DOC DU LIEU TU FILE QLSV.scv---"<<endl;
-				DocFileCsv(ql,n);
+				Read_FileCsv(ql,n);
 				cout<<"\n->Doc file .scv thanh cong.";
 				break;
-			dung5:case 0:exit(0);
+			stop5:case 0:exit(0);
 			default:
 				cout<<"->Ban nhap khong dung!";
 				break;
 			}
-			char traloi5;	
+			char answer5;	
 			cout<<"-Ban muon tiep tuc (y/n)?: ";
-			cin>>traloi5;
-			if(traloi5=='y' || traloi5=='Y') goto tieptuc;
-			if(traloi5=='n' || traloi5=='N') goto dung5;
+			cin>>answer5;
+			if(answer5=='y' || answer5=='Y') goto continues;
+			if(answer5=='n' || answer5=='N') goto stop5;
 		}	
-		dung:case 0:exit(0);
+		stop:case 0:exit(0);
 		default:
 			cout<<"->Ban nhap khong dung!";
 			break;
 		}
 	}
-	char traloi;	
+	char answer;	
 	cout<<"-Ban muon tiep tuc (y/n)?: ";
-	cin>>traloi;
-	if(traloi=='y' || traloi=='Y') goto tieptuc;
-	if(traloi=='n' || traloi=='N') goto dung;
+	cin>>answer;
+	if(answer=='y' || answer=='Y') goto continues;
+	if(answer=='n' || answer=='N') goto stop;
 	cout<<endl;
 	return 0;
 }
