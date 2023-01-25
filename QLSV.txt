@@ -1,3 +1,2 @@
-Ma so Ho ten Lop Que quan Ngay sinh Diem toan Diem van Diem anh DiemTrungBinh Hoc luc Diem Ren Luyen Hoc bong
-1 1 1 1 1/1/2000 8 8 8 8 Gioi 88            8000000
-2 2 2 2 2/2/2000 9 9 9 9 Xuat sac 99            10000000
+Ma so Ho ten Lop Que quan Ngay sinh Diem toan Diem van Diem anh Diemtrungbinh Hoc luc Diem Ren Luyen Hoc bong
+1 1 1 1 1/1/1,1 1 1 1 Yeu 11 0

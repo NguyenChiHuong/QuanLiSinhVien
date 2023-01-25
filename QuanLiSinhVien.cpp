@@ -6,17 +6,51 @@
 #include<fstream>
 using namespace std;
 
-struct Date_Of_Birth{
-    int Day,Month,Year;
+class Date_Of_Birth{
+	public:
+		int Day,Month,Year;
+	public:
+		Date_Of_Birth(){}
+		Date_Of_Birth(int D ,int M,int Y){
+			this->Day=D;
+			this->Month = M;
+			this->Year=Y;
+		}
+		~Date_Of_Birth(){}
+		void Input_Date();
+		void Output_Date();
 };
+void Date_Of_Birth::Input_Date(){
+	cout<<"\n\t-Nhap ngay sinh-\n";
+	cout<<"\nNhap ngay: "; 
+	do{ 
+		cin>>Day;
+		if(Day <=0 ||Day >31)
+			cout<<"Khong co nam nay!";
+	}while(Day <=0 ||Day >31);
+	cout<<"Nhap thang: ";
+	do{
+		cin>>Month;
+		if(Month <=0 ||Month >12)
+			cout<<"->Khong co thang nay!";
+	}while(Month <=0 ||Month >12 );
+	cout<<"Nhap nam: "; 
+	do{
+		cin>>Year;
+		if(Year <=0 ||Year >2023)
+			cout<<"->Khong co nam nay!";
+	}while(Year <=0 ||Year >2023);
+}
 
+void Date_Of_Birth::Output_Date(){
+	cout<<"|"<<setw(2)<<Day<<"/"<<setw(2)<<Month<<"/"<<setw(4)<<Year<<"|";
+}
 class Student_Management{
     public:
         char Number_Code[10];
         char Name[10];
         char Classes[10];
         char Home_Town[10];
-        Date_Of_Birth ns;
     public:
         Student_Management(){}
         Student_Management(char*ms,char*ht,char*Classes,char*qq){
@@ -35,39 +69,20 @@ void Student_Management::Input_list(){
     cout<<"Nhap ho ten: "; cin.getline(Name,10);
     cout<<"Nhap lop: "; cin.getline(Classes,10);
     cout<<"Nhap que quan: "; cin.getline(Home_Town,10);
-    cout<<"\n\t-Nhap ngay sinh-\n";
-    cout<<"\nNhap ngay: "; 
-    do{ 
-    	cin>>ns.Day;
-    	if(ns.Day <=0 || ns.Day >31)
-    		cout<<"Khong co nam nay!";
-	}while(ns.Day <=0 || ns.Day >31);
-    cout<<"Nhap thang: ";
-	do{
-		cin>>ns.Month;
-		if(ns.Month <=0 || ns.Month >12)
-			cout<<"->Khong co thang nay!";
-	}while(ns.Month <=0 || ns.Month >12 );
-    cout<<"Nhap nam: "; 
-    do{
-    	cin>>ns.Year;
-    	if(ns.Year <=0 || ns.Year >2023)
-    		cout<<"->Khong co nam nay!";
-	}while(ns.Year <=0 || ns.Year >2023);
 }
 
 void Student_Management::Display(){
-    cout<<"|"<<setw(5)<<Number_Code<<"|"<<setw(15)<<Name<<"|"<<setw(10)<<Classes<<"|"<<setw(12)<<Home_Town
-        <<"|"<<setw(2)<<ns.Day<<"/"<<setw(2)<<ns.Month<<"/"<<setw(4)<<ns.Year<<"|";
+    cout<<"|"<<setw(5)<<Number_Code<<"|"<<setw(15)<<Name<<"|"<<setw(10)<<Classes<<"|"<<setw(12)<<Home_Town;
 }
 
-class Scholarship_Management:public Student_Management{
+class Scholarship_Management:public Student_Management,public Date_Of_Birth{
     public:
         float Math_point,Literature_point,English_point;
 		int Practise_point;
     public:
         Scholarship_Management(){}
-        Scholarship_Management(char*ms,char*ht,char*Classes,char*qq,float dt,float dv,float da,int drl):Student_Management(ms,ht,Classes,qq){
+        Scholarship_Management(char*ms,char*ht,char*Classes,char*qq,float dt,float dv,float da,int drl,int D,int M,int Y)
+		:Student_Management(ms,ht,Classes,qq),Date_Of_Birth(D,M,Y){
             this->Math_point = dt;
             this->Literature_point = dv;
             this->English_point = da;
@@ -155,10 +170,10 @@ void Table_line(){
 }
 istream&operator>>(istream&is,Scholarship_Management & ql){
     ql.Student_Management::Input_list();
+	ql.Date_Of_Birth::Input_Date();
     cout<<"\n\t-Nhap diem-\n";
     do{
 		fflush(stdin);
-
 		cout<<"\nNhap diem toan: "; is>>ql.Math_point;
     	cout<<"Nhap diem van: "; is>>ql.Literature_point;
 		cout<<"Nhap diem anh: "; is>>ql.English_point;
@@ -170,34 +185,37 @@ istream&operator>>(istream&is,Scholarship_Management & ql){
 }
 ostream&operator<<(ostream&os,Scholarship_Management ql){
     ql.Student_Management::Display();
+	ql.Date_Of_Birth::Output_Date();
     os<<setw(9)<<ql.Math_point<<"|"<<setw(8)<<ql.Literature_point<<"|"<<setw(8)<<ql.English_point<<"|"<<setw(13)<<ql.Medium_point()<<"|"
         <<setw(10)<<ql.Ranked_academic()<<"|"<<setw(14)<<ql.Practise_point<<"|"<<setw(10)<<ql.Scholarships()<<setw(2)<<"|"<<endl; 
     return os;
 }
+
 void Input_Display(Scholarship_Management ql[],int n){
-	int duyet = 0;
+	int browse = 0;
     for(int i=0;i<n;i++){
 		do{
-			duyet = 0;
+			browse = 0;
 			cout<<"\n$ Sinh vien thu "<<i+1<<" $"<<endl;
         	cin>>ql[i];
 			for(int j=0;j<i;j++){
 				if(ql[j].Number_Code == ql[i].Number_Code){
 					cout<<"-Da co sinh vien nay,moi ban nhap lai!"<<endl;
-					duyet++; 
+					browse++; 
 				}
 			}
-		}while(duyet != 0);
+		}while(browse != 0);
     }cout<<endl; Double_line();
 }
 
 void Output_Display(Scholarship_Management ql[],int n){
-	Table_line(); Title(); Width_line();
+	Table_line(); Title(); Table_line();
     for(int i=0;i<n;i++){
         cout<<ql[i];
         Table_line();
     } cout<<"\n\n";
 } 
+
 void Add_Display(Scholarship_Management ql[],int n){
 	int add;
 	cout<<"Nhap so sinh vien can them: "; cin>>add;
@@ -225,26 +243,8 @@ void Alter_Display(Scholarship_Management ql[],int n){
 				cout<<"Nhap ho ten: "; cin.getline(ql[i].Name,10);
 				cout<<"Nhap lop: "; cin.getline(ql[i].Classes,10);
 				cout<<"Nhap que quan: "; cin.getline(ql[i].Home_Town,10);
-				cout<<"\n\t-Nhap ngay sinh-\n";
-				cout<<"\nNhap ngay: "; 
-				do{ 
-					cin>>ql[i].ns.Day;
-					if(ql[i].ns.Day <=0 || ql[i].ns.Day >31)
-						cout<<"->Khong co ngay nay!";
-				}while(ql[i].ns.Day <=0 || ql[i].ns.Day >31);
-				cout<<"Nhap thang: ";
-				do{
-					cin>>ql[i].ns.Month;
-					if(ql[i].ns.Month <=0 || ql[i].ns.Month >12)
-						cout<<"->Khong co thang nay!";
-				}while(ql[i].ns.Month <=0 || ql[i].ns.Month >12 );
-				cout<<"Nhap nam: "; 
-				do{
-					cin>>ql[i].ns.Year;
-					if(ql[i].ns.Year <=0 || ql[i].ns.Year >2023)
-						cout<<"->Khong co nam nay!";
-				}while(ql[i].ns.Year <=0 || ql[i].ns.Year >2023);
-				 cout<<"\n\t-Nhap diem-\n";
+				Date_Of_Birth::Input_Date;
+				cout<<"\n\t-Nhap diem-\n";
 				do{
 					cout<<"\nNhap diem toan: "; cin>>ql[i].Math_point;
 					cout<<"Nhap diem van: ";cin>>ql[i].Literature_point;
@@ -375,9 +375,10 @@ void Write_FileTxt(Scholarship_Management ql[],int n){
 	}
 	file<<"Ma so"<<" "<<"Ho ten"<<" "<<"Lop"<<" "<<"Que quan"<<" "<<"Ngay sinh"<<" "<<"Diem toan"<<" "
 		<<"Diem van"<<" "<<"Diem anh"<<" "<<"Diemtrungbinh"<<" "<<"Hoc luc"<<" "<<"Diem Ren Luyen"<<" "<<"Hoc bong"<<endl;
+	Scholarship_Management::Date_Of_Birth();
 	for(short int i=0;i<n;i++){
 		file<<left<<ql[i].Number_Code<<" "<<left<<ql[i].Name<<" "<<left<<ql[i].Classes<<" "<<left<<ql[i].Home_Town<<" "
-			<<left<<ql[i].ns.Day<<"/"<<left<<ql[i].ns.Month<<"/"<<left<<ql[i].ns.Year<<" "
+			<<left<<ql[i].Day<<"/"<<left<<ql[i].Month<<"/"<<left<<ql[i].Year<<","
 			<<left<<ql[i].Math_point<<" "<<left<<ql[i].Literature_point<<" "<<left<<ql[i].English_point<<" "
 			<<left<<ql[i].Medium_point()<<" "<<left<<ql[i].Ranked_academic()<<" "
 			<<left<<ql[i].Practise_point<<" "<<left<<ql[i].Scholarships()<<endl;
@@ -392,9 +393,11 @@ void Read_FileTxt(Scholarship_Management ql[],int n){
 		cerr<<"-Khong the doc file .txt"<<endl;
 	}
     Table_line(); Title(); Table_line();
+	Scholarship_Management::Date_Of_Birth();
 	for(short int i=0;i<n;i++){
+
 		cout<<"|"<<setw(5)<<ql[i].Number_Code<<"|"<<setw(15)<<ql[i].Name<<"|"<<setw(10)<<ql[i].Classes<<"|"<<setw(12)<<ql[i].Home_Town
-        	<<"|"<<setw(2)<<ql[i].ns.Day<<"/"<<setw(2)<<ql[i].ns.Month<<"/"<<setw(4)<<ql[i].ns.Year<<"|";
+       		<<"|"<<setw(2)<<ql[i].Day<<"/"<<setw(2)<<ql[i].Month<<"/"<<setw(4)<<ql[i].Year<<"|";
         cout<<setw(9)<<ql[i].Math_point<<"|"<<setw(8)<<ql[i].Literature_point<<"|"<<setw(8)<<ql[i].English_point<<"|"<<setw(13)<<ql[i].Medium_point()<<"|"
         	<<setw(10)<<ql[i].Ranked_academic()<<"|"<<setw(14)<<ql[i].Practise_point<<"|"<<setw(10)<<ql[i].Scholarships()<<"|"<<endl; Table_line();
 	}
@@ -409,9 +412,10 @@ void Write_FileCsv(Scholarship_Management ql[],int n){
 	}
 	file<<"Ma so"<<","<<"Ho ten"<<","<<"Lop"<<","<<"Que quan"<<","<<"Ngay sinh"<<","<<"Diem toan"<<","
 		<<"Diem van"<<","<<"Diem anh"<<","<<"Diemtrungbinh"<<","<<"Hoc luc"<<","<<"Hoc bong"<<endl;
+	Scholarship_Management::Date_Of_Birth();
 	for(short int i=0;i<n;i++){
 		file<<left<<ql[i].Number_Code<<","<<left<<ql[i].Name<<","<<left<<ql[i].Classes<<","<<left<<ql[i].Home_Town<<","
-			<<left<<ql[i].ns.Day<<"/"<<left<<ql[i].ns.Month<<"/"<<left<<ql[i].ns.Year<<","
+			<<left<<ql[i].Day<<"/"<<left<<ql[i].Month<<"/"<<left<<ql[i].Year<<","
 			<<left<<ql[i].Math_point<<","<<left<<ql[i].Literature_point<<","<<left<<ql[i].English_point<<","
 			<<left<<ql[i].Medium_point()<<","<<left<<ql[i].Ranked_academic()<<","
 			<<left<<ql[i].Practise_point<<","<<left<<ql[i].Scholarships()<<endl;
@@ -425,9 +429,10 @@ void Read_FileCsv(Scholarship_Management ql[],int n){
 		cerr<<"-Khong the doc file .scv"<<endl;
 	}
     Table_line(); Title(); Table_line();
+	Scholarship_Management::Date_Of_Birth();
 	for(short int i=0;i<n;i++){
-	cout<<"|"<<setw(5)<<ql[i].Number_Code<<"|"<<setw(15)<<ql[i].Name<<"|"<<setw(10)<<ql[i].Classes<<"|"<<setw(12)<<ql[i].Home_Town
-        	<<"|"<<setw(2)<<ql[i].ns.Day<<"/"<<setw(2)<<ql[i].ns.Month<<"/"<<setw(4)<<ql[i].ns.Year<<"|";
+		cout<<"|"<<setw(5)<<ql[i].Number_Code<<"|"<<setw(15)<<ql[i].Name<<"|"<<setw(10)<<ql[i].Classes<<"|"<<setw(12)<<ql[i].Home_Town
+        	<<"|"<<setw(2)<<ql[i].Day<<"/"<<setw(2)<<ql[i].Month<<"/"<<setw(4)<<ql[i].Year<<"|";
         cout<<setw(9)<<ql[i].Math_point<<"|"<<setw(8)<<ql[i].Literature_point<<"|"<<setw(8)<<ql[i].English_point<<"|"<<setw(13)<<ql[i].Medium_point()<<"|"
         	<<setw(10)<<ql[i].Ranked_academic()<<"|"<<setw(14)<<ql[i].Practise_point<<"|"<<setw(10)<<ql[i].Scholarships()<<"|"<<endl; Table_line();
 	}
@@ -645,3 +650,4 @@ int main(){
 	cout<<endl;
 	return 0;
 }
+
