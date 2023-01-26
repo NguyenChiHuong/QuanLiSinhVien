@@ -95,11 +95,11 @@ class Scholarship_Management:public Student_Management,public Date_Of_Birth{
         }
         
         string Ranked_academic(){
-			if(Medium_point() >=9 && Medium_point() <=10 &&(Practise_point >=90))
+			if((Medium_point() >=9 && Medium_point() <=10) &&(Practise_point >=90))
 				return "Xuat sac";
-            else if(Medium_point() >= 8 && Medium_point() <9 && (Practise_point >=80 && Practise_point < 90))
+            else if((Medium_point() >= 8 && Medium_point() <9 )&& (Practise_point >=80 && Practise_point < 90))
                 return "Gioi";
-            else if(Medium_point() >=6.5 && Medium_point() <8 && (Practise_point >=60 && Practise_point < 80))
+            else if((Medium_point() >=6.5 && Medium_point() <8 )&& (Practise_point >=60 && Practise_point < 80))
                 return "Kha";
             else if(Medium_point() >=4 && Medium_point() <6.5)
 				return "Trung Binh";
@@ -141,6 +141,38 @@ class Scholarship_Management:public Student_Management,public Date_Of_Birth{
         }
         friend istream&operator>>(istream&is,Scholarship_Management &ql);
         friend ostream&operator<<(ostream&os,Scholarship_Management ql);
+		
+		void Input_Display(Scholarship_Management ql[],int n);
+
+		void Output_Display(Scholarship_Management ql[],int n);
+		
+		void Add_Display(Scholarship_Management ql[],int n);
+
+		void Alter_Display(Scholarship_Management ql[],int n);
+		
+		void Delete_Display(Scholarship_Management ql[],int n);
+		
+		void Arrange_Medium_point_down(Scholarship_Management ql[],int n);
+
+		void Arrange_Medium_point_up(Scholarship_Management ql[],int n);
+
+		void Arrange_Name(Scholarship_Management ql[],int n);
+
+		void Code_search(Scholarship_Management ql[],int n);
+
+		void Name_search(Scholarship_Management ql[],int n);
+
+		void Class_search(Scholarship_Management ql[],int n);
+
+		void Home_Town_search(Scholarship_Management ql[],int n);
+		
+		void Write_FileTxt(Scholarship_Management ql[],int n);
+
+		void Read_FileTxt(Scholarship_Management ql[],int n);
+
+		void Write_FileCsv(Scholarship_Management ql[],int n);
+		
+		void Read_FileCsv(Scholarship_Management ql[],int n);
 };
 void Star_line(){
 	for(int i=0;i<57;i++){cout<<"*";}
@@ -191,7 +223,7 @@ ostream&operator<<(ostream&os,Scholarship_Management ql){
     return os;
 }
 
-void Input_Display(Scholarship_Management ql[],int n){
+void Scholarship_Management::Input_Display(Scholarship_Management ql[],int n){
 	int browse = 0;
     for(int i=0;i<n;i++){
 		do{
@@ -208,7 +240,7 @@ void Input_Display(Scholarship_Management ql[],int n){
     }cout<<endl; Double_line();
 }
 
-void Output_Display(Scholarship_Management ql[],int n){
+void Scholarship_Management::Output_Display(Scholarship_Management ql[],int n){
 	Table_line(); Title(); Table_line();
     for(int i=0;i<n;i++){
         cout<<ql[i];
@@ -216,7 +248,7 @@ void Output_Display(Scholarship_Management ql[],int n){
     } cout<<"\n\n";
 } 
 
-void Add_Display(Scholarship_Management ql[],int n){
+void Scholarship_Management::Add_Display(Scholarship_Management ql[],int n){
 	int add;
 	cout<<"Nhap so sinh vien can them: "; cin>>add;
 	int j=n;
@@ -233,7 +265,7 @@ void Add_Display(Scholarship_Management ql[],int n){
 	}
 }
 
-void Alter_Display(Scholarship_Management ql[],int n){
+void Scholarship_Management::Alter_Display(Scholarship_Management ql[],int n){
 	char alter[10];
 	cout<<"-Nhap ma so sinh vien can sua: ";fflush(stdin); cin.getline(alter,10);
 	for(int i=0;i<n;i++){
@@ -243,7 +275,7 @@ void Alter_Display(Scholarship_Management ql[],int n){
 				cout<<"Nhap ho ten: "; cin.getline(ql[i].Name,10);
 				cout<<"Nhap lop: "; cin.getline(ql[i].Classes,10);
 				cout<<"Nhap que quan: "; cin.getline(ql[i].Home_Town,10);
-				Date_Of_Birth::Input_Date;
+				Date_Of_Birth::Input_Date();
 				cout<<"\n\t-Nhap diem-\n";
 				do{
 					cout<<"\nNhap diem toan: "; cin>>ql[i].Math_point;
@@ -254,11 +286,11 @@ void Alter_Display(Scholarship_Management ql[],int n){
 		            cout<<"->Ban nhap sai!";
 		    }while(ql[i].Math_point <0 || ql[i].Literature_point <0||ql[i].English_point <0 ||ql[i].Practise_point<0 || ql[i].Math_point >10||ql[i].Literature_point >10 || ql[i].English_point >10||ql[i].Practise_point>100); 
 		cout<<"\t\t\t---DANH SACH SINH VIEN SAU KHI SUA---\n\n";
-		Output_Display(ql,n);
+		ql->Output_Display(ql,n);
 		}
 	}
 }
-void Delete_Display(Scholarship_Management ql[],int n){
+void Scholarship_Management::Delete_Display(Scholarship_Management ql[],int n){
 	char deletes[10];
 	cout<<"-Nhap ma so sinh vien can xoa: ";fflush(stdin); cin.getline(deletes,10);
 	for(int i=0;i<n;i++){
@@ -269,9 +301,9 @@ void Delete_Display(Scholarship_Management ql[],int n){
 		}
 	}
 	cout<<"\t\t\tDANH SACH SINH VIEN SAU KHI XOA\n";
-	Output_Display(ql,n);
+	ql->Output_Display(ql,n);
 }
-void Arrange_Medium_point_down(Scholarship_Management ql[],int n){
+void Scholarship_Management::Arrange_Medium_point_down(Scholarship_Management ql[],int n){
 	for(int i=0;i<n;i++){
     	for(int j=i+1;j<n;j++){
     		if(ql[i].Medium_point() < ql[j].Medium_point()){
@@ -281,11 +313,11 @@ void Arrange_Medium_point_down(Scholarship_Management ql[],int n){
 			}
 		}
 	} 
-	Output_Display(ql,n); 
+	ql->Output_Display(ql,n); 
 	cout<<"\n\n";
 } 
 
-void Arrange_Medium_point_up(Scholarship_Management ql[],int n){
+void Scholarship_Management::Arrange_Medium_point_up(Scholarship_Management ql[],int n){
 	for(int i=0;i<n;i++){
     	for(int j=i+1;j<n;j++){
     		if(ql[i].Medium_point() > ql[j].Medium_point()){
@@ -296,11 +328,11 @@ void Arrange_Medium_point_up(Scholarship_Management ql[],int n){
 		}
 	}
 	Double_line();
-	Output_Display(ql,n);
+	ql->Output_Display(ql,n);
 	cout<<"\n\n";
 } 
 
-void Arrange_Name(Scholarship_Management ql[],int n){
+void Scholarship_Management::Arrange_Name(Scholarship_Management ql[],int n){
 	char c[10];
 	char d[10];
 	for(int i=0;i<n;i++){
@@ -318,7 +350,7 @@ void Arrange_Name(Scholarship_Management ql[],int n){
 	Output_Display(ql,n);
 }
 
-void Code_search(Scholarship_Management ql[],int n){
+void Scholarship_Management::Code_search(Scholarship_Management ql[],int n){
 	char g[10];
 	cout<<"\t-Nhap ma can tim kiem: "; cin>>g;
 	Double_line();
@@ -327,11 +359,11 @@ void Code_search(Scholarship_Management ql[],int n){
 		if(strcmp(ql[i].Number_Code,g)==0){
 			cout<<ql[i];
 			Table_line();
-		} else cout<<"-Khong co ma sinh vien nay!";
+		} 
 	}
 }
 
-void Name_search(Scholarship_Management ql[],int n){
+void Scholarship_Management::Name_search(Scholarship_Management ql[],int n){
 	char f[10];
 	cout<<"\t-Nhap ten can tim kiem: "; cin>>f; Double_line();
 	cout<<setw(60)<<"\t\t\tDANH SACH SINH VIEN"<<endl; Double_line(); Table_line(); Title(); Table_line();
@@ -339,11 +371,11 @@ void Name_search(Scholarship_Management ql[],int n){
 		if(strcmp(ql[i].Name,f)==0){
 			cout<<ql[i];
 			Table_line();
-		}else cout<<"-Khong co ten sinh vien nay!";
+		}
 	}
 }
 
-void Class_search(Scholarship_Management ql[],int n){
+void Scholarship_Management::Class_search(Scholarship_Management ql[],int n){
 	char g[10];
 	cout<<"\t-Nhap lop can tim kiem: "; cin>>g; Double_line();
 	cout<<setw(60)<<"\t\t\tDANH SACH SINH VIEN"<<endl; Double_line(); Table_line(); Title(); Table_line();
@@ -351,11 +383,11 @@ void Class_search(Scholarship_Management ql[],int n){
 		if(strcmp(ql[i].Classes,g)==0){
 			cout<<ql[i];
 			Table_line();
-		}else cout<<"-Khong co lop nay!";
+		}
 	}
 }
 
-void Home_Town_search(Scholarship_Management ql[],int n){
+void Scholarship_Management::Home_Town_search(Scholarship_Management ql[],int n){
 	char q[10];
 	cout<<"\t-Nhap que quan can tim kiem: "; cin>>q; Double_line();
 	cout<<setw(60)<<"\t\t\tDANH SACH SINH VIEN"<<endl; Double_line(); Table_line(); Title(); Table_line();
@@ -363,11 +395,11 @@ void Home_Town_search(Scholarship_Management ql[],int n){
 		if(strcmp(ql[i].Home_Town,q)==0){
 			cout<<ql[i];
 			Table_line();
-		}else cout<<"-Khong co que quan nay!";
+		}
 	}
 } 
 
-void Write_FileTxt(Scholarship_Management ql[],int n){
+void Scholarship_Management::Write_FileTxt(Scholarship_Management ql[],int n){
 	ofstream file;
 	file.open("QLSV.txt",ios::out);
 	if(!file){
@@ -386,7 +418,7 @@ void Write_FileTxt(Scholarship_Management ql[],int n){
 	file.close();
 }
 
-void Read_FileTxt(Scholarship_Management ql[],int n){
+void Scholarship_Management::Read_FileTxt(Scholarship_Management ql[],int n){
 	ifstream file;
 	file.open("QLSV.Txt",ios::in);
 	if(!file){
@@ -404,7 +436,7 @@ void Read_FileTxt(Scholarship_Management ql[],int n){
 	file.close();
 } 
 
-void Write_FileCsv(Scholarship_Management ql[],int n){
+void Scholarship_Management::Write_FileCsv(Scholarship_Management ql[],int n){
 	ofstream file;
 	file.open("QLSV.csv",ios::out);
 	if(!file){
@@ -422,7 +454,7 @@ void Write_FileCsv(Scholarship_Management ql[],int n){
 	}
 	file.close();
 }
-void Read_FileCsv(Scholarship_Management ql[],int n){
+void Scholarship_Management::Read_FileCsv(Scholarship_Management ql[],int n){
 	ifstream file;
 	file.open("QLSV.csv",ios::in);
 	if(!file){
@@ -467,29 +499,29 @@ int main(){
 			    cin>>n;
 		        if(n <0) cout<<"Ban nhap sai!\n";
 			}while(n <0);
-    		Input_Display(ql,n);
+    		ql->Input_Display(ql,n);
 			break;
 		}
 		case 2: {
 			Double_line();
 			cout<<setw(60)<<"DANH SACH SINH VIEN"<<endl; Double_line();
 			cout<<"\n"; 
-    		Output_Display(ql,n);
+    		ql->Output_Display(ql,n);
 			break;
 		}
 		case 3:{
 			cout<<"\t\t\t---THEM THONG TIN SINH VIEN LEN DANH SACH---"<<endl;
-			Add_Display(ql,n);
+			ql->Add_Display(ql,n);
 			break;
 		}
 		case 4:{
 			cout<<"\t\t\t---SUA THONG TIN SINH VIEN TRONG DANH SACH---"<<endl;
-			Alter_Display(ql,n);
+			ql->Alter_Display(ql,n);
 			break;
 		}
 		case 5:{
 			cout<<"\t\t\t---XOA THONG TIN SINH VIEN TRONG DANH SACH---"<<endl;
-			Delete_Display(ql,n);
+			ql->Delete_Display(ql,n);
 			break;
 		}
 		case 6:{
@@ -505,19 +537,19 @@ int main(){
 				case 1:{
 					cout<<"\t\t---DANH SACH SINH VIEN GIAM DAN THEO DIEM TRUNG BINH---\n"<<endl; Double_line();
 					cout<<"\t\t\tDANH SACH SINH VIEN"<<endl;
-					Arrange_Medium_point_down(ql,n);
+					ql->Arrange_Medium_point_down(ql,n);
 					break;
 				}
 				case 2:{
 					cout<<"\t\t---DANH SACH SINH VIEN TANG DAN THEO DIEM TRUNG BINH---\n"<<endl; Double_line();
 					cout<<"\t\t\tDANH SACH SINH VIEN"<<endl; 
-					Arrange_Medium_point_up(ql,n);
+					ql->Arrange_Medium_point_up(ql,n);
 					break;
 				}
 				case 3:{
 					cout<<"\t\t---DANH SACH SINH VIEN TANG DAN THEO TEN---\n"<<endl; Double_line();
 					cout<<"\t\t\tDANH SACH SINH VIEN"<<endl; 
-				    Arrange_Name(ql,n);
+				    ql->Arrange_Name(ql,n);
 					break;
 				}
 				stop1:case 0:exit(0);
@@ -543,22 +575,22 @@ int main(){
 			switch(c){
 				case 1:{
 					cout<<"\t\t---DANH SACH SINH VIEN TIM KIEM THEO MA SO---\n"<<endl; 
-				    Code_search(ql,n);
+				    ql->Code_search(ql,n);
 					break;
 				}
 				case 2:{
 					cout<<"\t\t---DANH SACH SINH VIEN TIM KIEM THEO TEN---\n"<<endl; 
-				    Name_search(ql,n);
+				    ql->Name_search(ql,n);
 					break;
 				}
 				case 3:{
 					cout<<"\t\t---DANH SACH SINH VIEN TIM KIEM THEO LOP---\n"<<endl;
-				    Class_search(ql,n);
+				    ql->Class_search(ql,n);
 					break;
 				}
 				case 4:{
 					cout<<"\t\t---DANH SACH SINH VIEN TIM KIEM THEO QUE QUAN---\n"<<endl; 
-				    Home_Town_search(ql,n);
+				    ql->Home_Town_search(ql,n);
 					break;
 				}
 				stop2:case 0:exit(0);
@@ -584,13 +616,13 @@ int main(){
 			{
 			case 1:
 				cout<<"\n\t\t\t---GHI DU LIEU VAO FILE QLSV.txt---"<<endl;
-				Output_Display(ql,n);
-				Write_FileTxt(ql,n);
+				ql->Output_Display(ql,n);
+				ql->Write_FileTxt(ql,n);
 				cout<<"\n-Ghi file .txt thanh cong";
 				break;
 			case 2:
 				cout<<"\n\t\t\t---DOC DU LIEU VAO FILE QLSV.txt---"<<endl;
-				Read_FileTxt(ql,n);
+				ql->Read_FileTxt(ql,n);
 				cout<<"\n->Doc file .txt thanh cong";
 				break;
 			stop3:case 0:exit(0);
@@ -616,13 +648,13 @@ int main(){
 			{
 			case 1:
 				cout<<"\n\t\t\t---GHI DU LIEU VAO FILE QLSV.scv---"<<endl;
-				Output_Display(ql,n);
-				Write_FileCsv(ql,n);
+				ql->Output_Display(ql,n);
+				ql->Write_FileCsv(ql,n);
 				cout<<"\n->Ghi file .scv thanh cong.";
 				break;
 			case 2:
 				cout<<"\n\t\t\t---DOC DU LIEU TU FILE QLSV.scv---"<<endl;
-				Read_FileCsv(ql,n);
+				ql->Read_FileCsv(ql,n);
 				cout<<"\n->Doc file .scv thanh cong.";
 				break;
 			stop5:case 0:exit(0);
@@ -650,4 +682,3 @@ int main(){
 	cout<<endl;
 	return 0;
 }
-
