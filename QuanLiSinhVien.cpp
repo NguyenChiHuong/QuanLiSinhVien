@@ -20,6 +20,7 @@ class Date_Of_Birth{
 		void Input_Date();
 		void Output_Date();
 };
+
 void Date_Of_Birth::Input_Date(){
 	cout<<"\n\t-Nhap ngay sinh-\n";
 	cout<<"\nNhap ngay: "; 
@@ -45,6 +46,7 @@ void Date_Of_Birth::Input_Date(){
 void Date_Of_Birth::Output_Date(){
 	cout<<"|"<<setw(2)<<Day<<"/"<<setw(2)<<Month<<"/"<<setw(4)<<Year<<"|";
 }
+
 class Student_Management{
     public:
         char Number_Code[10];
@@ -63,6 +65,7 @@ class Student_Management{
         void Input_list();
         void Display();
 };
+
 void Student_Management::Input_list(){
     cout<<"\t-Nhap sinh vien-\n";
     cout<<"\nNhap ma so: "; fflush(stdin); cin.getline(Number_Code,10);
@@ -75,23 +78,22 @@ void Student_Management::Display(){
     cout<<"|"<<setw(5)<<Number_Code<<"|"<<setw(15)<<Name<<"|"<<setw(10)<<Classes<<"|"<<setw(12)<<Home_Town;
 }
 
-class Scholarship_Management:public Student_Management,public Date_Of_Birth{
-    public:
+class Student_point{
+	public:
         float Math_point,Literature_point,English_point;
 		int Practise_point;
-    public:
-        Scholarship_Management(){}
-        Scholarship_Management(char*ms,char*ht,char*Classes,char*qq,float dt,float dv,float da,int drl,int D,int M,int Y)
-		:Student_Management(ms,ht,Classes,qq),Date_Of_Birth(D,M,Y){
-            this->Math_point = dt;
+	public:
+		Student_point(){}
+		Student_point(float dt,float dv,float da,int drl){
+			this->Math_point = dt;
             this->Literature_point = dv;
             this->English_point = da;
 			this->Practise_point =drl;
-        }
-        ~Scholarship_Management(){}
-        
+		}
+		~Student_point(){}
+		
         float Medium_point(){
-            return (this->Math_point + this->Literature_point +this->English_point) / 3;
+            return (this->Math_point + this->Literature_point + this->English_point) / 3;
         }
         
         string Ranked_academic(){
@@ -116,7 +118,35 @@ class Scholarship_Management:public Student_Management,public Date_Of_Birth{
 				return 6000000;
 			else return 0;
 		}
+		void Intput_point();
+		void Output_point();
+};
 
+void Student_point::Intput_point(){
+	 cout<<"\n\t-Nhap diem-\n";
+    do{
+		fflush(stdin);
+		cout<<"\nNhap diem toan: "; cin>>Math_point;
+    	cout<<"Nhap diem van: "; cin>>Literature_point;
+		cout<<"Nhap diem anh: "; cin>>English_point;
+		cout<<"Nhap diem ren luyen: "; cin>>Practise_point;
+        if(Math_point <0 || Literature_point <0||English_point <0 || Practise_point<0|| Math_point >10||Literature_point >10 || English_point >10||Practise_point>100)
+            cout<<"->Ban nhap sai!";
+    }while(Math_point <0 || Literature_point <0||English_point <0 ||Practise_point<0 || Math_point >10||Literature_point >10 || English_point >10||Practise_point>100); 
+}
+
+void Student_point::Output_point(){
+	cout<<setw(9)<<Math_point<<"|"<<setw(8)<<Literature_point<<"|"<<setw(8)<<English_point<<"|"<<setw(13)<<Medium_point()<<"|"
+        <<setw(10)<<Ranked_academic()<<"|"<<setw(14)<<Practise_point<<"|"<<setw(10)<<Scholarships()<<setw(2)<<"|"<<endl; 
+}
+
+class Scholarship_Management:public Student_Management,public Date_Of_Birth,public Student_point{
+    public:
+        Scholarship_Management(){}
+        Scholarship_Management(char*ms,char*ht,char*Classes,char*qq,float dt,float dv,float da,int drl,int D,int M,int Y)
+		:Student_Management(ms,ht,Classes,qq),Date_Of_Birth(D,M,Y),Student_point(dt,dv,da,drl){}
+        ~Scholarship_Management(){}
+        
         friend bool operator < (Scholarship_Management a,float b){
         	if(a.Medium_point() < b)
         		return true;
@@ -174,6 +204,7 @@ class Scholarship_Management:public Student_Management,public Date_Of_Birth{
 		
 		void Read_FileCsv(Scholarship_Management ql[],int n);
 };
+
 void Star_line(){
 	for(int i=0;i<57;i++){cout<<"*";}
 	cout<<"\n";
@@ -200,26 +231,18 @@ void Table_line(){
         <<"----------"<<"+"<<"---------"<<"+"<<"--------"<<"+"<<"--------"<<"+";
     cout<<"-------------"<<"+"<<"----------"<<"+"<<"--------------"<<"+"<<"----------"<<"+"<<endl;
 }
+
 istream&operator>>(istream&is,Scholarship_Management & ql){
     ql.Student_Management::Input_list();
 	ql.Date_Of_Birth::Input_Date();
-    cout<<"\n\t-Nhap diem-\n";
-    do{
-		fflush(stdin);
-		cout<<"\nNhap diem toan: "; is>>ql.Math_point;
-    	cout<<"Nhap diem van: "; is>>ql.Literature_point;
-		cout<<"Nhap diem anh: "; is>>ql.English_point;
-		cout<<"Nhap diem ren luyen: "; is>>ql.Practise_point;
-        if(ql.Math_point <0 || ql.Literature_point <0||ql.English_point <0 || ql.Practise_point<0|| ql.Math_point >10||ql.Literature_point >10 || ql.English_point >10||ql.Practise_point>100)
-            cout<<"->Ban nhap sai!";
-    }while(ql.Math_point <0 || ql.Literature_point <0||ql.English_point <0 ||ql.Practise_point<0 || ql.Math_point >10||ql.Literature_point >10 || ql.English_point >10||ql.Practise_point>100); 
+    ql.Student_point::Intput_point();
     return is;
 }
+
 ostream&operator<<(ostream&os,Scholarship_Management ql){
     ql.Student_Management::Display();
 	ql.Date_Of_Birth::Output_Date();
-    os<<setw(9)<<ql.Math_point<<"|"<<setw(8)<<ql.Literature_point<<"|"<<setw(8)<<ql.English_point<<"|"<<setw(13)<<ql.Medium_point()<<"|"
-        <<setw(10)<<ql.Ranked_academic()<<"|"<<setw(14)<<ql.Practise_point<<"|"<<setw(10)<<ql.Scholarships()<<setw(2)<<"|"<<endl; 
+    ql.Student_point::Output_point();
     return os;
 }
 
@@ -271,25 +294,16 @@ void Scholarship_Management::Alter_Display(Scholarship_Management ql[],int n){
 	for(int i=0;i<n;i++){
 		if(strcmp(alter,ql[i].Number_Code)==0){
 				cout<<"\t-Nhap sinh vien can sua-\n";
-				cout<<"\nNhap ma so: "; fflush(stdin); cin.getline(ql[i].Number_Code,10);
-				cout<<"Nhap ho ten: "; cin.getline(ql[i].Name,10);
-				cout<<"Nhap lop: "; cin.getline(ql[i].Classes,10);
-				cout<<"Nhap que quan: "; cin.getline(ql[i].Home_Town,10);
+				Student_Management::Input_list();
 				Date_Of_Birth::Input_Date();
 				cout<<"\n\t-Nhap diem-\n";
-				do{
-					cout<<"\nNhap diem toan: "; cin>>ql[i].Math_point;
-					cout<<"Nhap diem van: ";cin>>ql[i].Literature_point;
-					cout<<"Nhap diem anh: "; cin>>ql[i].English_point;
-					cout<<"Nhap diem ren luyen: "; cin>>ql[i].Practise_point;
-		        if(ql[i].Math_point <0 || ql[i].Literature_point <0||ql[i].English_point <0 || ql[i].Practise_point<0|| ql[i].Math_point >10||ql[i].Literature_point >10 || ql[i].English_point >10||ql[i].Practise_point>100)
-		            cout<<"->Ban nhap sai!";
-		    }while(ql[i].Math_point <0 || ql[i].Literature_point <0||ql[i].English_point <0 ||ql[i].Practise_point<0 || ql[i].Math_point >10||ql[i].Literature_point >10 || ql[i].English_point >10||ql[i].Practise_point>100); 
+				
 		cout<<"\t\t\t---DANH SACH SINH VIEN SAU KHI SUA---\n\n";
 		ql->Output_Display(ql,n);
 		}
 	}
 }
+
 void Scholarship_Management::Delete_Display(Scholarship_Management ql[],int n){
 	char deletes[10];
 	cout<<"-Nhap ma so sinh vien can xoa: ";fflush(stdin); cin.getline(deletes,10);
@@ -303,6 +317,7 @@ void Scholarship_Management::Delete_Display(Scholarship_Management ql[],int n){
 	cout<<"\t\t\tDANH SACH SINH VIEN SAU KHI XOA\n";
 	ql->Output_Display(ql,n);
 }
+
 void Scholarship_Management::Arrange_Medium_point_down(Scholarship_Management ql[],int n){
 	for(int i=0;i<n;i++){
     	for(int j=i+1;j<n;j++){
@@ -333,8 +348,7 @@ void Scholarship_Management::Arrange_Medium_point_up(Scholarship_Management ql[]
 } 
 
 void Scholarship_Management::Arrange_Name(Scholarship_Management ql[],int n){
-	char c[10];
-	char d[10];
+	char c[10]; char d[10];
 	for(int i=0;i<n;i++){
 		strcpy(c,ql[i].Name);
     	for(int j=i+1;j<n;j++){
@@ -472,7 +486,7 @@ void Scholarship_Management::Read_FileCsv(Scholarship_Management ql[],int n){
 } 
 
 int main(){
-	Scholarship_Management ql[100];
+	Scholarship_Management Scholarship_Management[100];
 	int n;
 	//Scholarship_Management*ql = new Scholarship_Management;
     continues:{
@@ -499,29 +513,29 @@ int main(){
 			    cin>>n;
 		        if(n <0) cout<<"Ban nhap sai!\n";
 			}while(n <0);
-    		ql->Input_Display(ql,n);
+    		Scholarship_Management->Input_Display(Scholarship_Management,n);
 			break;
 		}
 		case 2: {
 			Double_line();
 			cout<<setw(60)<<"DANH SACH SINH VIEN"<<endl; Double_line();
 			cout<<"\n"; 
-    		ql->Output_Display(ql,n);
+    		Scholarship_Management->Output_Display(Scholarship_Management,n);
 			break;
 		}
 		case 3:{
 			cout<<"\t\t\t---THEM THONG TIN SINH VIEN LEN DANH SACH---"<<endl;
-			ql->Add_Display(ql,n);
+			Scholarship_Management->Add_Display(Scholarship_Management,n);
 			break;
 		}
 		case 4:{
 			cout<<"\t\t\t---SUA THONG TIN SINH VIEN TRONG DANH SACH---"<<endl;
-			ql->Alter_Display(ql,n);
+			Scholarship_Management->Alter_Display(Scholarship_Management,n);
 			break;
 		}
 		case 5:{
 			cout<<"\t\t\t---XOA THONG TIN SINH VIEN TRONG DANH SACH---"<<endl;
-			ql->Delete_Display(ql,n);
+			Scholarship_Management->Delete_Display(Scholarship_Management,n);
 			break;
 		}
 		case 6:{
@@ -537,19 +551,19 @@ int main(){
 				case 1:{
 					cout<<"\t\t---DANH SACH SINH VIEN GIAM DAN THEO DIEM TRUNG BINH---\n"<<endl; Double_line();
 					cout<<"\t\t\tDANH SACH SINH VIEN"<<endl;
-					ql->Arrange_Medium_point_down(ql,n);
+					Scholarship_Management->Arrange_Medium_point_down(Scholarship_Management,n);
 					break;
 				}
 				case 2:{
 					cout<<"\t\t---DANH SACH SINH VIEN TANG DAN THEO DIEM TRUNG BINH---\n"<<endl; Double_line();
 					cout<<"\t\t\tDANH SACH SINH VIEN"<<endl; 
-					ql->Arrange_Medium_point_up(ql,n);
+					Scholarship_Management->Arrange_Medium_point_up(Scholarship_Management,n);
 					break;
 				}
 				case 3:{
 					cout<<"\t\t---DANH SACH SINH VIEN TANG DAN THEO TEN---\n"<<endl; Double_line();
 					cout<<"\t\t\tDANH SACH SINH VIEN"<<endl; 
-				    ql->Arrange_Name(ql,n);
+				    Scholarship_Management->Arrange_Name(Scholarship_Management,n);
 					break;
 				}
 				stop1:case 0:exit(0);
@@ -558,7 +572,7 @@ int main(){
 				break;
 			}
 			char answer1;	
-			cout<<"-Ban muon tiep tuc (y/n)?: ";
+			cout<<"-Ban muon tiep tuc (yes/no)?: ";
 			cin>>answer1;
 			if(answer1=='y' || answer1=='Y') goto continues;
 			if(answer1=='n' || answer1=='N') goto stop1;
@@ -575,22 +589,22 @@ int main(){
 			switch(c){
 				case 1:{
 					cout<<"\t\t---DANH SACH SINH VIEN TIM KIEM THEO MA SO---\n"<<endl; 
-				    ql->Code_search(ql,n);
+				    Scholarship_Management->Code_search(Scholarship_Management,n);
 					break;
 				}
 				case 2:{
 					cout<<"\t\t---DANH SACH SINH VIEN TIM KIEM THEO TEN---\n"<<endl; 
-				    ql->Name_search(ql,n);
+				    Scholarship_Management->Name_search(Scholarship_Management,n);
 					break;
 				}
 				case 3:{
 					cout<<"\t\t---DANH SACH SINH VIEN TIM KIEM THEO LOP---\n"<<endl;
-				    ql->Class_search(ql,n);
+				    Scholarship_Management->Class_search(Scholarship_Management,n);
 					break;
 				}
 				case 4:{
 					cout<<"\t\t---DANH SACH SINH VIEN TIM KIEM THEO QUE QUAN---\n"<<endl; 
-				    ql->Home_Town_search(ql,n);
+				    Scholarship_Management->Home_Town_search(Scholarship_Management,n);
 					break;
 				}
 				stop2:case 0:exit(0);
@@ -599,7 +613,7 @@ int main(){
 				break;
 			}
 			char answer2;	
-			cout<<"-Ban muon tiep tuc (y/n)?: ";
+			cout<<"-Ban muon tiep tuc (yes/no)?: ";
 			cin>>answer2;
 			if(answer2=='y' || answer2=='Y') goto continues;
 			if(answer2=='n' || answer2=='N') goto stop2;
@@ -615,14 +629,14 @@ int main(){
 			switch (d)
 			{
 			case 1:
-				cout<<"\n\t\t\t---GHI DU LIEU VAO FILE QLSV.txt---"<<endl;
-				ql->Output_Display(ql,n);
-				ql->Write_FileTxt(ql,n);
+				cout<<"\n\t\t\t---GHI DU LIEU VAO QLSV.txt---"<<endl;
+				Scholarship_Management->Output_Display(Scholarship_Management,n);
+				Scholarship_Management->Write_FileTxt(Scholarship_Management,n);
 				cout<<"\n-Ghi file .txt thanh cong";
 				break;
 			case 2:
-				cout<<"\n\t\t\t---DOC DU LIEU VAO FILE QLSV.txt---"<<endl;
-				ql->Read_FileTxt(ql,n);
+				cout<<"\n\t\t\t---DOC DU LIEU VAO QLSV.txt---"<<endl;
+				Scholarship_Management->Read_FileTxt(Scholarship_Management,n);
 				cout<<"\n->Doc file .txt thanh cong";
 				break;
 			stop3:case 0:exit(0);
@@ -631,14 +645,14 @@ int main(){
 				break;
 			}
 			char answer3;
-			cout<<"-Ban muon tiep tuc (y/n)?: ";
+			cout<<"-Ban muon tiep tuc (yes/no)?: ";
 			cin>>answer3;
 			if(answer3=='y' || answer3=='Y') goto continues;
 			if(answer3=='n' || answer3=='N') goto stop3;
 		}	
 		case 9:{
 			int e; cout<<"\n";
-			cout<<"================GHI DU LIEU VAO FILE QLSV.scv=================";
+			cout<<"================GHI DU LIEU VAO QLSV.scv=================";
 			cout<<"\n\t\tNhap 1.GHI DU LIEU VAO FILE QLSV.scv";
 			cout<<"\n\t\tNhap 2.DOC DU LIEU TU FILE QLSV.scv"; 
 			cout<<"\n\t\tNhap 0.THOAT"; cout<<"\n";
@@ -647,14 +661,14 @@ int main(){
 			switch (e)
 			{
 			case 1:
-				cout<<"\n\t\t\t---GHI DU LIEU VAO FILE QLSV.scv---"<<endl;
-				ql->Output_Display(ql,n);
-				ql->Write_FileCsv(ql,n);
+				cout<<"\n\t\t\t---GHI DU LIEU VAO QLSV.scv---"<<endl;
+				Scholarship_Management->Output_Display(Scholarship_Management,n);
+				Scholarship_Management->Write_FileCsv(Scholarship_Management,n);
 				cout<<"\n->Ghi file .scv thanh cong.";
 				break;
 			case 2:
-				cout<<"\n\t\t\t---DOC DU LIEU TU FILE QLSV.scv---"<<endl;
-				ql->Read_FileCsv(ql,n);
+				cout<<"\n\t\t\t---DOC DU LIEU TU QLSV.scv---"<<endl;
+				Scholarship_Management->Read_FileCsv(Scholarship_Management,n);
 				cout<<"\n->Doc file .scv thanh cong.";
 				break;
 			stop5:case 0:exit(0);
@@ -663,7 +677,7 @@ int main(){
 				break;
 			}
 			char answer5;	
-			cout<<"-Ban muon tiep tuc (y/n)?: ";
+			cout<<"-Ban muon tiep tuc (yes/no)?: ";
 			cin>>answer5;
 			if(answer5=='y' || answer5=='Y') goto continues;
 			if(answer5=='n' || answer5=='N') goto stop5;
@@ -675,7 +689,7 @@ int main(){
 		}
 	}
 	char answer;	
-	cout<<"-Ban muon tiep tuc (y/n)?: ";
+	cout<<"-Ban muon tiep tuc (yes/no)?: ";
 	cin>>answer;
 	if(answer=='y' || answer=='Y') goto continues;
 	if(answer=='n' || answer=='N') goto stop;
